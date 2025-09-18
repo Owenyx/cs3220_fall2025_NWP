@@ -212,7 +212,7 @@ def render(houses, network):
     ])
 
 
-def page1():
+def page1(ctx): # Page context is passed but not needed
     houses = st.session_state["houses"]
 
     st.text('Game of Thrones Houses:')
@@ -226,7 +226,7 @@ def page1():
     st.pyplot(chart)
 
 
-def page2():
+def page2(ctx):
     houses = st.session_state["houses"]
 
     for house in houses:
@@ -237,7 +237,7 @@ def page2():
         print(f"We have {house.getStrength()} family members!!!")
 
 
-def page3():
+def page3(ctx):
     network = st.session_state["network"]
 
     st.title("Lab1. Task2.")
