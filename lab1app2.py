@@ -242,8 +242,7 @@ def tab_houses(houses):
 
 def tab_members(houses):
     for house in houses:
-        st.text(house)
-        st.text("Our members:")
+        st.text(f"{house} Our members:")
         for person in house:
             st.markdown(f"- {person}")
         st.text(f"We have {house.getStrength()} family members!!!")
