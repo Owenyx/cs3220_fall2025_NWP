@@ -108,17 +108,21 @@ def build_chart(houses):
     y = list(visualisationData.values())
 
     #Create the graph = create seaborn barplot
-    ax=sns.barplot(x=x,y=y)
+    fig, ax = sns.barplot(x=x,y=y)
 
     #specify axis labels
     ax.legend(legendData)
     sns.move_legend(ax, "upper left", bbox_to_anchor=(1.05, 1))
-    ax.set(xlabel='Houses',
+    ax.set(
+        xlabel='Houses',
         ylabel='Strength (N family members)',
-        title='Strength of GameOfThronesHouses')
+        title='Strength of GameOfThronesHouses'
+    )
 
     # Rotate x axis titles
     plt.xticks(rotation=45)
+
+    return fig
     
 
 def build_network(houses):
@@ -229,8 +233,8 @@ def tab_houses(houses): # Page context is passed but not needed
         st.markdown(f"- {house}: Strength: {house.getStrength()}")
 
     # House strength bar chart
-    chart, ax = plt.subplots()
-    st.pyplot(chart)
+    fig = build_chart(houses)
+    st.pyplot(fig)
 
 
 def tab_members(houses):
@@ -238,7 +242,7 @@ def tab_members(houses):
         st.text(house)
         st.text("Our members:")
         for person in house:
-            st.text(person)
+            st.markdown(f"- person")
         st.text(f"We have {house.getStrength()} family members!!!")
 
 
@@ -256,8 +260,6 @@ def main():
     # Create houses from data
     GameOfThronesHouses = build_houses(json_data)
 
-    build_chart(GameOfThronesHouses)
-    
     GameOfThronesNet = build_network(GameOfThronesHouses)
 
     render(GameOfThronesHouses, GameOfThronesNet)
