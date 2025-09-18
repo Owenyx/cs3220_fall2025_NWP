@@ -235,11 +235,11 @@ def tab_houses(houses): # Page context is passed but not needed
 
 def tab_members(houses):
     for house in houses:
-        print(house)
-        print("Our members:")
+        st.text(house)
+        st.text("Our members:")
         for person in house:
-            print(person)
-        print(f"We have {house.getStrength()} family members!!!")
+            st.text(person)
+        st.text(f"We have {house.getStrength()} family members!!!")
 
 
 def tab_graph(network):
