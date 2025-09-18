@@ -77,7 +77,7 @@ def build_edges(df):
 
 def build_graph(nodes, edges):
     # Instantiate Pyvis network
-    net5kings = Network(heading="Task1. Building Interactive Network of battles of the War of 5 Kings",
+    net5kings = Network(
         bgcolor ="#242020",
         font_color = "white",
         height = "1000px",
