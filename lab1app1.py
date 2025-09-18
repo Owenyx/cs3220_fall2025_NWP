@@ -153,3 +153,7 @@ def main():
     add_node_colors(net5kings)
 
     display_graph(net5kings)
+
+
+if __name__ == '__main__':
+    main()
