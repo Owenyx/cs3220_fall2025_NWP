@@ -228,7 +228,7 @@ def render(houses, network):
         tab_graph(network)
 
 
-def tab_houses(houses): # Page context is passed but not needed
+def tab_houses(houses): 
     st.text('Game of Thrones Houses:')
 
     # House names and strengths
@@ -245,7 +245,7 @@ def tab_members(houses):
         st.text(house)
         st.text("Our members:")
         for person in house:
-            st.markdown(f"- person")
+            st.markdown(f"- {person}")
         st.text(f"We have {house.getStrength()} family members!!!")
 
 
