@@ -130,11 +130,11 @@ def add_node_colors(network):
 
 
 def display_graph(network):
-    st.title('Network Graph Visualization - lab1. Example')
+    st.title('Lab 1 Task 1, War of 5 Kings')
 
     network.save_graph("Lab1-task1-net5kings.html")
     HtmlFile = open(f'Lab1-task1-net5kings.html', 'r', encoding='utf-8')
-    components.html(HtmlFile.read(), height = 1200,width=1000)
+    components.html(HtmlFile.read(), height = 600, width = 1000)
 
 
 def main():
