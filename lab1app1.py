@@ -1,5 +1,6 @@
 import pandas as pd
 from pyvis.network import Network
+import streamlit as st
 import streamlit.components.v1 as components #to display the HTML code
 
 
@@ -98,6 +99,8 @@ def build_graph(nodes, edges):
             arrows = edge['arrows']
         )
 
+    return net5kings
+
 
 def add_node_values(network):
     enemies_map = network.get_adj_list()
@@ -126,6 +129,14 @@ def add_node_colors(network):
         node['color'] = color_map[node['value']]
 
 
+def display_graph(network):
+    st.title('Network Graph Visualization - lab1. Example')
+
+    network.save_graph("Lab1-task1-net5kings.html")
+    HtmlFile = open(f'Lab1-task1-net5kings.html', 'r', encoding='utf-8')
+    components.html(HtmlFile.read(), height = 1200,width=1000)
+
+
 def main():
     # Load data
     raw_df = data_load()
@@ -141,7 +152,4 @@ def main():
     add_node_values(net5kings)
     add_node_colors(net5kings)
 
-    # Display graph
-    net5kings.save_graph("Lab1-task1-net5kings.html")
-    HtmlFile = open(f'Lab1-task1-net5kings.html', 'r', encoding='utf-8')
-    components.html(HtmlFile.read(), height = 1200,width=1000)
+    display_graph(net5kings)
