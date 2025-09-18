@@ -205,16 +205,23 @@ def render(houses, network):
 
     st.title('Task 2: Infographic of relationships between characters in Game of Thrones')
 
-    st.navigation([
-        st.Page(page1(houses), title="Game of Thrones Houses"),
-        st.Page(page2(houses), title="Members of Houses"),
-        st.Page(page3(network), title="Graph for Game of Thrones Houses")
+    tab1, tab2, tab3 = st.tabs([
+        "Game of Thrones Houses", 
+        "Members of Houses", 
+        "Graph for Game of Thrones Houses"
     ])
 
+    with tab1:
+        tab_houses(houses)
 
-def page1(ctx): # Page context is passed but not needed
-    houses = st.session_state["houses"]
+    with tab2:
+        tab_members(houses)
 
+    with tab3:
+        tab_graph(network)
+
+
+def tab_houses(houses): # Page context is passed but not needed
     st.text('Game of Thrones Houses:')
 
     # House names and strengths
@@ -226,9 +233,7 @@ def page1(ctx): # Page context is passed but not needed
     st.pyplot(chart)
 
 
-def page2(ctx):
-    houses = st.session_state["houses"]
-
+def tab_members(houses):
     for house in houses:
         print(house)
         print("Our members:")
@@ -237,9 +242,7 @@ def page2(ctx):
         print(f"We have {house.getStrength()} family members!!!")
 
 
-def page3(ctx):
-    network = st.session_state["network"]
-
+def tab_graph(network):
     st.title("Lab1. Task2.")
     
     network.save_graph("GameOfThronesNet.html")
