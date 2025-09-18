@@ -107,8 +107,11 @@ def build_chart(houses):
     x = list(visualisationData.keys())
     y = list(visualisationData.values())
 
+    # Create new figure + axes with matplotlib so we can return the figure
+    fig, ax = plt.subplots(figsize=(8, 5))
+
     #Create the graph = create seaborn barplot
-    fig, ax = sns.barplot(x=x,y=y)
+    sns.barplot(x=x ,y=y, ax=ax)
 
     #specify axis labels
     ax.legend(legendData)
