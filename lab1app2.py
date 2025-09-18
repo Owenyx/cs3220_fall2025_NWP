@@ -44,7 +44,7 @@ class Dynasty:
 
 
     def __str__(self): # to print like print(house) - > display the house's name
-        return self._name
+        return f"This is a House of {self._name}!"
 
     
     def getStrength(self): # return N of family members in this house (int)
@@ -226,7 +226,7 @@ def tab_houses(houses): # Page context is passed but not needed
 
     # House names and strengths
     for house in houses:
-        st.text(f"{house}: Strength: {house.getStrength()}")
+        st.markdown(f"- {house}: Strength: {house.getStrength()}")
 
     # House strength bar chart
     chart, ax = plt.subplots()
