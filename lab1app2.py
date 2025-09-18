@@ -199,16 +199,22 @@ def add_network_node_colors(network, houses):
 
 
 def render(houses, network):
+    # Declare state so houses and network can be accessed by pages
+    st.session_state["houses"] = houses
+    st.session_state["network"] = network
+
     st.title('Task 2: Infographic of relationships between characters in Game of Thrones')
 
     st.navigation([
-        st.Page(lambda: page1(houses), title="Game of Thrones Houses"),
-        st.Page(lambda: page2(houses), title="Members of Houses"),
-        st.Page(lambda: page3(network), title="Graph for Game of Thrones Houses")
+        st.Page(page1(houses), title="Game of Thrones Houses"),
+        st.Page(page2(houses), title="Members of Houses"),
+        st.Page(page3(network), title="Graph for Game of Thrones Houses")
     ])
 
 
-def page1(houses):
+def page1():
+    houses = st.session_state["houses"]
+
     st.text('Game of Thrones Houses:')
 
     # House names and strengths
@@ -220,7 +226,9 @@ def page1(houses):
     st.pyplot(chart)
 
 
-def page2(houses):
+def page2():
+    houses = st.session_state["houses"]
+
     for house in houses:
         print(house)
         print("Our members:")
@@ -229,7 +237,9 @@ def page2(houses):
         print(f"We have {house.getStrength()} family members!!!")
 
 
-def page3(network):
+def page3():
+    network = st.session_state["network"]
+
     st.title("Lab1. Task2.")
     
     network.save_graph("GameOfThronesNet.html")
