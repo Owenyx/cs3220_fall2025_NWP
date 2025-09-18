@@ -134,7 +134,7 @@ def display_graph(network):
 
     network.save_graph("Lab1-task1-net5kings.html")
     HtmlFile = open(f'Lab1-task1-net5kings.html', 'r', encoding='utf-8')
-    components.html(HtmlFile.read(), height = 600, width = 1000)
+    components.html(HtmlFile.read(), height = 1200, width = 1000)
 
 
 def main():
