@@ -70,9 +70,10 @@ def AgentStep(opt):
 
 
 def main():
-        
+    # st.session_state is used here to track page state. Otherwise, page refreshes on every button click
+
     if "clicked" not in st.session_state:
-        st.session_state["clicked"] = False
+        st.session_state["clicked"] = False 
         
     if not st.session_state["clicked"]:
         # Set header title

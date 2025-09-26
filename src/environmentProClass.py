@@ -8,6 +8,7 @@ class environmentPro(Environment):
     self.things = []
 
   #Return all things exactly at a given location
+  # Useful for task 2 finding sausage/milk at location
   def list_things_at(self, location, thingClass=Thing):
     return [thing for thing in self.things if thing.location == location and isinstance(thing, thingClass)]
 

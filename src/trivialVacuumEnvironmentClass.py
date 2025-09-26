@@ -29,9 +29,9 @@ class TrivialVacuumEnvironment(Environment):
         Score 10 for each dirt cleaned; -1 for each move."""
 
         if action == 'Right':
-            agent.location = loc_B
-            agent.performance -= 1
-            self.update_agent_alive(agent)
+            agent.location = loc_B # Move agent
+            agent.performance -= 1 # Incur energy cost
+            self.update_agent_alive(agent) # Check if dead
         elif action == 'Left':
             agent.location = loc_A
             agent.performance -= 1

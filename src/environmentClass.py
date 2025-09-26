@@ -13,10 +13,12 @@ class Environment:
 
   def percept(self, agent):
     #Return the percept that the agent sees at this point. (Implement this in derived classes)
+    # What agent sees depends on its environment, that's why this is here
     print("I don't know how to percept.")
 
   def execute_action(self, agent, action):
     #Change the world to reflect this action. (Implement this in derived classes)
+    # How an action affects the world depends on the environment
     print("I don't know how to execute_action.")
 
   def default_location(self, thing):
@@ -31,6 +33,9 @@ class Environment:
   def step(self):
         #Run the environment for one time step.
         if not self.is_done():
+            # Reasons for list of actions
+            # In case of multiple agents, each will take at least one action
+            # In case of one agent being able to process multiple things and make multiple actions in one step
             actions = []
             for agent in self.agents:
                 if agent.alive:
@@ -42,7 +47,7 @@ class Environment:
                 else:
                     print("Agent {} is dead.".format(agent))
                     actions.append("")
-            for (agent, action) in zip(self.agents, actions):
+            for (agent, action) in zip(self.agents, actions): # Won't work if one agent can make multiple actions
                 self.execute_action(agent, action)
         else:
           print("There is no one here who could work...")

@@ -15,7 +15,7 @@ def TableDrivenAgentProgram(table):
     def program(percept):
         percepts.append(percept)
         #print(tuple(percepts))
-        action = table.get(tuple(percepts))
+        action = table.get(tuple(percepts)) 
         
         if action is None:
           print("Not such percept sequence in my table")

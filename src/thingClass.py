@@ -7,6 +7,7 @@ class Thing:
 
   def is_alive(self):
     """Things that are 'alive' should return true."""
+    """Alive = does things. Our vacuum agent is alive"""
     return hasattr(self, 'alive') and self.alive
 
   def show_state(self):
