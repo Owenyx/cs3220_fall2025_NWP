@@ -21,8 +21,11 @@ vacuumRules={((0, 0), 'Dirty'): 'Suck',
        ((1, 0), 'Clean'): 'Left'}
 
 
+# Actions for Task1
 
-#Rules for your Task3
+cat_actions = ['Right', 'Left', 'Eat', 'Drink', 'Fight']
+
+# Rules for Task3
 
 a2proRules={'Office manager': 'Give mail', 
 'IT': 'Give donuts', 

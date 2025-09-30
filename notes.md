@@ -1,4 +1,6 @@
 Test agent functionality before putting in environment
 
+# Questions
 Task 1:
-All positions are in a row just like vacuum, just with 5 instead of 2 rooms
+
+- Should the cat lose performance on every action or only movement left and right?
