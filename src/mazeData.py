@@ -176,7 +176,7 @@ def makeMazeTransformationModel(mazeActs):
 
     return mazeStateSpace
 
-def mazeStatesLocations(n):
+def mazeStatesRandomLocations(n):
   x = []
   y = []
   keyList=[]
@@ -188,6 +188,18 @@ def mazeStatesLocations(n):
   for _ in range(len(keyList)):
     x.append(random.randint(0, n+1))
     y.append(random.randint(0, n+1))
+  zipped = zip(x, y)
+  return dict(zip(keyList, zipped))
+
+
+def mazeStatesLocations(keyList): 
+  x = []
+  y = []
+  
+  for elem in keyList:
+    x.append(elem[1]*10)
+    y.append(elem[0]*10)
+ 
   zipped = zip(x, y)
   return dict(zip(keyList, zipped))
 
