@@ -59,7 +59,7 @@ def main():
 
         # If is done, then agent just died
         if house is not None:
-            print("Agent just died :(")
+            st.error("Agent just died :(")
 
         house = setup()
         st.session_state["house"] = house
