@@ -38,9 +38,16 @@ class CatFriendlyHouse(Environment):
     
     def get_status(self) -> str:
         room_things = map(self.get_food_at, range(1, 2))
+        r1, r2 = list(room_things)
         
+        # Add agent to corrosponding room
+        cat = self.agents[0]
+        if cat.location == 1:
+            r1 = [r1, cat]
+        else:
+            r2 = [r2, cat]
         
-        return f"| 1. | 2.  |"
+        return f"| 1. {r1} | 2. {r2} |"
     
     def is_cat_alive(self, cat: Agent_Cat) -> bool:
         return cat.alive
