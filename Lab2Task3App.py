@@ -47,11 +47,8 @@ def AgentStep(opt):
         st.success("Agent decided to do: {}.".format(",".join(stepActs)))
         st.session_state["step"] += 1
     else:
-        if e.is_agent_alive(a):
-            st.success("Cat Won!!!")
-        else:
-            st.error("Cat died :(")
-        
+        st.success("Agent finished deliveries.")
+
         st.session_state['reset'] = True
     
 
