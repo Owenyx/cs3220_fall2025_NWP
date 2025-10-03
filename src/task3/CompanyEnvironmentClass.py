@@ -61,11 +61,11 @@ class CompanyEnvironment(environmentPro):
         
     # Add agent to corrosponding room
     agent = self.agents[0]
-    if agent.location == 1:
+    if agent.location == loc_A:
       r1.append(agent)
-    elif agent.location == 2:
+    elif agent.location == loc_B:
       r2.append(agent)
-    elif agent.location == 3:
+    elif agent.location == loc_C:
       r3.append(agent)
     else:
       r4.append(agent)
