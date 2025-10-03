@@ -45,9 +45,10 @@ def AgentStep(opt):
     if e.is_agent_alive(a):
         stepActs = e.step()
         st.success("Agent decided to do: {}.".format(",".join(stepActs)))
-        
-    st.session_state["step"] += 1
-
+        st.session_state["step"] += 1
+    else:
+        st.error("Agent in location {} and it is dead.".format(a.location))
+    
 
 def main():
     # Initialize house if missing
@@ -57,11 +58,6 @@ def main():
     house = st.session_state["house"]
 
     if house is None or house.is_done():
-
-        # House will not be None if we just died
-        if house is not None:
-            st.error("Agent died :(")
-
         house = setup()
         st.session_state["house"] = house
         st.session_state["step"] = 1 
