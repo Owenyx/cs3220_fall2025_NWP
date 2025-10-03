@@ -12,11 +12,11 @@ class CatFriendlyHouse(Environment):
             2: 'Unknown'
         } # Both rooms initially unknown
 
-    def percept(self, cat: Agent_Cat):
+    def percept(self, agent: Agent_Cat):
         # Sets status of room based on percept, and returns the agent's location and the room status
-        status = self.get_room_status(cat.location)
-        self.status[cat.location] = status
-        return (cat.location, status)
+        status = self.get_room_status(agent.location)
+        self.status[agent.location] = status
+        return (agent.location, status)
     
     def get_room_status(self, location: int) -> str:
         food_in_room = self.get_food_at(location)
@@ -37,14 +37,24 @@ class CatFriendlyHouse(Environment):
         return None
     
     def get_status(self) -> str:
-        return ''
+        room_things = map(self.get_food_at, range(1, 3))
+        r1, r2 = list(room_things)
+        
+        # Add agent to corrosponding room
+        cat = self.agents[0]
+        if cat.location == 1:
+            r1 = [r1, cat]
+        else:
+            r2 = [r2, cat]
+        
+        return f"| 1. {r1} | 2. {r2} |"
 
-    def is_cat_alive(self, cat: Agent_Cat) -> bool:
-        return cat.alive
+    def is_agent_alive(self, agent: Agent_Cat) -> bool:
+        return agent.alive
 
-    def update_cat_alive(self, cat: Agent_Cat):
-        if cat.performance <= 0:
-            cat.alive = False
+    def update_agent_alive(self, agent: Agent_Cat):
+        if agent.performance <= 0:
+            agent.alive = False
             print("Cat is dead.")
 
     def is_done(self):
@@ -57,32 +67,32 @@ class CatFriendlyHouse(Environment):
 
         return no_live_agents or no_food
 
-    def execute_action(self, cat: Agent_Cat, action: str):
-        if not self.is_cat_alive(cat):
+    def execute_action(self, agent: Agent_Cat, action: str):
+        if not self.is_agent_alive(agent):
             return
 
         if action == 'Right':
-            cat.location = 2  
-            cat.performance -= 1 # Incur energy cost
+            agent.location = 2  
+            agent.performance -= 1 # Incur energy cost
 
         elif action == 'Left':
-            cat.location = 1
-            cat.performance -= 1
+            agent.location = 1
+            agent.performance -= 1
 
         elif action == 'Eat':
-            if cat.eat(self.get_food_at(cat.location)):
+            if agent.eat(self.get_food_at(agent.location)):
                 # Remove sausage from room if successful
-                self.delete_thing(self.get_food_at(cat.location))
+                self.delete_thing(self.get_food_at(agent.location))
 
         elif action == 'Drink':
-            if cat.drink(self.get_food_at(cat.location)):
+            if agent.drink(self.get_food_at(agent.location)):
                 # Remove milk from room if successful
-                self.delete_thing(self.get_food_at(cat.location))
+                self.delete_thing(self.get_food_at(agent.location))
 
         elif action == None:
-            cat.performance = 0 # If no action stop the cat
+            agent.performance = 0 # If no action stop the cat
 
-        self.update_cat_alive(cat) # Check for signs of life
+        self.update_agent_alive(agent) # Check for signs of life
 
     def add_thing(self, thing: Agent_Cat | Milk | Sausage, location=None):
         if thing in self.food or thing in self.agents:
