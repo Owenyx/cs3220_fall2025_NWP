@@ -57,7 +57,7 @@ def AgentStep(opt):
 
 
 def main():
-    # Initialize reset bool if missing
+    # Initialize reset flag if missing
     if "reset" not in st.session_state:
         st.session_state["reset"] = False
 
