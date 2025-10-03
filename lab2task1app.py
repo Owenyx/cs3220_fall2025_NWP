@@ -42,10 +42,15 @@ def drawBtn(e,a):
 def AgentStep(opt):
     e, a = opt[0], opt[1]
     
-    if e.is_agent_alive(a):
+    if not e.is_done():
         stepActs = e.step()
         st.success("Agent decided to do: {}.".format(",".join(stepActs)))
         st.session_state["step"] += 1
+    else:
+        if e.is_agent_alive(a):
+            st.success("Cat Won!!!")
+        else:
+            st.error("Cat died :(")
     
 
 def main():
@@ -56,11 +61,6 @@ def main():
     house = st.session_state["house"]
 
     if house is None or house.is_done():
-
-        # If is done, then agent just died
-        if house is not None:
-            st.error("Agent has died :(")
-
         house = setup()
         st.session_state["house"] = house
         st.session_state["step"] = 1 
