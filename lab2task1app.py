@@ -63,7 +63,12 @@ def main():
     house = st.session_state["house"]
 
     if house is None or house.is_done():
-        st.error("Agent died :(")
+
+        # Check if just died
+        if st.session_state["died"]:
+            st.error("Agent died :(")
+            st.session_state["died"] = False
+
         house = setup()
         st.session_state["house"] = house
         st.session_state["step"] = 1 
