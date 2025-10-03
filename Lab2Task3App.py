@@ -38,7 +38,7 @@ def AgentStep(opt):
     e, a = opt[0], opt[1]
 
     if st.session_state["reset"]: # Reset on next button press if flag is on
-        st.session_state["house"] = None
+        st.session_state["company"] = None
         st.session_state["reset"] = False
         return
     
@@ -60,7 +60,7 @@ def main():
     if "reset" not in st.session_state:
         st.session_state["reset"] = False
 
-    # Initialize house if missing
+    # Initialize company if missing
     if "company" not in st.session_state:
         st.session_state["company"] = None
 
