@@ -1,0 +1,6 @@
+[server]
+# Disable Streamlit's file-watcher (prevents inotify exhaustion in restricted hosts)
+enableFileWatcher = false
+
+# Older / alternative config key — harmless if unused, but included for compatibility
+folderWatching = false
