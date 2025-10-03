@@ -40,6 +40,7 @@ def AgentStep(opt):
 
     if st.session_state["reset"]: # Reset on next button press if flag is on
         st.session_state["house"] = None
+        return
     
     if not e.is_done():
         stepActs = e.step()
