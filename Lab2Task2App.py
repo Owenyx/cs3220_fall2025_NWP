@@ -37,6 +37,9 @@ def drawBtn(e,a):
     
 def AgentStep(opt):
     e, a = opt[0], opt[1]
+
+    if st.session_state["reset"]: # Reset on next button press if flag is on
+        st.session_state["house"] = None
     
     if not e.is_done():
         stepActs = e.step()
@@ -62,7 +65,7 @@ def main():
 
     house = st.session_state["house"]
 
-    if house is None or st.session_state['reset']:
+    if house is None:
         house = setup()
         st.session_state["house"] = house
         st.session_state["step"] = 1 
