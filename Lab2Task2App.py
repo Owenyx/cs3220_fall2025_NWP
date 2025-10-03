@@ -48,7 +48,7 @@ def AgentStep(opt):
         else:
             st.error("Cat died :(")
         
-        st['reset'] = True
+        st.session_state['reset'] = True
 
 
 def main():
