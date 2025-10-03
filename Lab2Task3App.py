@@ -24,7 +24,7 @@ def setup():
 
 def display_info(company: CompanyEnvironment):
     agent = company.agents[0]
-    st.info(f"Cat performance: {agent.performance}")
+    st.info(f"Agent performance: {agent.performance}")
     st.info(f"State of the environment: {company.get_status()}.")
     st.info(f"Current step: {st.session_state["step"]}")
 
