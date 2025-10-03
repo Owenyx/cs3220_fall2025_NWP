@@ -13,17 +13,19 @@ class Graph:
     '''
     def __init__(self, graph_dict=None):
       self.graph_dict = graph_dict or {}
+      # Passed graph_dict is directed, so make_graph makes it undirected by adding symmetric edges
       self.make_graph()
 
     def make_graph(self):
         """Make a digraph into an undirected graph by adding symmetric edges."""
-        for a in list(self.graph_dict.keys()):
-            for (b, dist) in self.graph_dict[a].items():
+        for a in list(self.graph_dict.keys()): # A city node
+            for (b, dist) in self.graph_dict[a].items(): # B is reachable from A with cost of dist
                 self.connect(b, a, dist)
 
     def connect(self, A, B, distance):
         """Add a link from A to B of given distance, in one direction only."""
-        self.graph_dict.setdefault(A, {})[B] = distance
+        self.graph_dict.setdefault(A, {})[B] = distance 
+        # setdefault is like ?? operator, if A is none then create empty dict, otherwise index the dict at A
 
     def get(self, a, b=None):
         """Return a link distance or a dict of {node: distance} entries.

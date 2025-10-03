@@ -4,6 +4,9 @@ vacuumWorldStates=['Dirty','Clean']
 agenLocations=['Left','Right']
 agentActions=['Suck','Left','Right']
 
+'''
+Hanna couldn't make this work because pyvis does not accept tuples as keys for dictionary, unlike normal Python
+'''
 # DDL=(vacuumWorldStates[0],vacuumWorldStates[0],agenLocations[0])
 # DDR=(vacuumWorldStates[0],vacuumWorldStates[0],agenLocations[1])
 # DCL=(vacuumWorldStates[0],vacuumWorldStates[1],agenLocations[0])
@@ -13,7 +16,7 @@ agentActions=['Suck','Left','Right']
 # CCL=(vacuumWorldStates[1],vacuumWorldStates[1],agenLocations[0])
 # CCR=(vacuumWorldStates[1],vacuumWorldStates[1],agenLocations[1])
 
-
+# Hence, we convert to strings to use a dict keys in pyvis
 DDL=''.join(map(lambda x: x[0],(vacuumWorldStates[0],vacuumWorldStates[0],agenLocations[0])))
 DDR=''.join(map(lambda x: x[0],(vacuumWorldStates[0],vacuumWorldStates[0],agenLocations[1])))
 DCL=''.join(map(lambda x: x[0],(vacuumWorldStates[0],vacuumWorldStates[1],agenLocations[0])))
@@ -23,8 +26,12 @@ CDR=''.join(map(lambda x: x[0],(vacuumWorldStates[1],vacuumWorldStates[0],agenLo
 CCL=''.join(map(lambda x: x[0],(vacuumWorldStates[1],vacuumWorldStates[1],agenLocations[0])))
 CCR=''.join(map(lambda x: x[0],(vacuumWorldStates[1],vacuumWorldStates[1],agenLocations[1])))
 
+# THIS IS DIFFERENT THAN CITY DICT
+# Here, she uses the actions (edges) as keys instead of the destination
+# This is because dict keys must be unique, and some actions lead the the same state
+# so using state as keys would lead to duplicate keys
 vacuumWorld = (dict(
-    DDL=dict(Suck=CDL,Left=DDL, Right=DDR),
+    DDL=dict(Suck=CDL, Left=DDL, Right=DDR),
     DDR=dict(Suck=DCR, Left=DDL, Right=DDR),
     DCL=dict(Suck=CCL, Left=DCL, Right=DCR),
     DCR=dict(Suck=DCR, Left=DCL, Right=DCR),

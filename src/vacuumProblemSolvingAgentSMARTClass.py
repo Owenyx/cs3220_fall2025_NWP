@@ -2,7 +2,7 @@ from src.vacuumProblemSolvingAgentClass import VacuumProblemSolvingAgent
 import collections
 
 class VacuumProblemSolvingAgentSMART(VacuumProblemSolvingAgent):
-  def __init__(self, initial_state=None, dataGraph=None, goal=None, program=None):
+  def __init__(self, initial_state=None, dataGraph=None, goal=None, program=None): # Needs program for brain
     super().__init__(initial_state,dataGraph,goal)
 
     if program is None or not isinstance(program, collections.abc.Callable):

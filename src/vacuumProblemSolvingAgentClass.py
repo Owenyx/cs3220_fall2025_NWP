@@ -4,7 +4,7 @@ from src.vacuumProblemClass import VacuumProblem
 class VacuumProblemSolvingAgent(SimpleProblemSolvingAgentProgram):
   def __init__(self, initial_state=None, dataGraph=None, goal=None):
     super().__init__(initial_state)
-    self.dataGraph=dataGraph
+    self.dataGraph=dataGraph # vacuumGraph
     self.goal=goal
     #instance of Vacuum ProblemClass
     #self.problem=problem #a description of the states and actions necessary to reach the goal

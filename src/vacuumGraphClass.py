@@ -3,9 +3,11 @@ from src.graphClass import Graph
 class vacuumGraph(Graph):
   def __init__(self, graph_dict=None,locations=None):
     #self.g=dict()
-    self.origin=graph_dict
+    self.origin=graph_dict # Original data the backwards format
     self.graph_dict = dict()
     #super().__init__(graph_dict)
+    # This changes the backwards data to be normal, where it is {a: {b: cost}}
+    # Actions is not stored here
     self.make_graph(graph_dict)
     self.locations=locations
 
@@ -14,7 +16,7 @@ class vacuumGraph(Graph):
     for a in graph_dict.keys():
       #print(self.graph_dict[a].items())
       for (act, b) in graph_dict[a].items():
-        self.connect(a, b, 1)
+        self.connect(a, b, 1) # Cost is always 1
 
   def connect(self, A, B, distance):
     #print(self.g)
