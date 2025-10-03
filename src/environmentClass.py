@@ -32,11 +32,11 @@ class Environment:
 
   def step(self):
         #Run the environment for one time step.
+        actions = []
         if not self.is_done():
             # Reasons for list of actions
             # In case of multiple agents, each will take at least one action
             # In case of one agent being able to process multiple things and make multiple actions in one step
-            actions = []
             for agent in self.agents:
                 if agent.alive:
                     #print(self.percept(agent))

@@ -25,6 +25,16 @@ class HouseEnvironment(Environment):
             agent.alive = False
             print("Agent {} is dead.".format(agent))
 
+    def is_done(self):
+        # If no live agents are found, or no things are on the house, end
+        no_live_agents = not any(agent.is_alive() for agent in self.agents)
+        no_things = len(self.things) == 0
+
+        if (no_things):
+            print('Cat has conquered the house!')
+
+        return no_live_agents or no_things
+
     def execute_action(self, agent: Agent, action: str):
         if not self.is_agent_alive(agent):
             return
@@ -55,11 +65,12 @@ class HouseEnvironment(Environment):
         elif action == 'Fight':
             # Check if dog in same room
             dog = self.find_in_room(agent.location, Dog)
-            print(dog)
             if dog:
                 if agent.performance >= 10:
                     # Win fight
                     agent.performance += 20
+                    # Dog runs away
+                    self.delete_thing(dog)
                 else:
                     # Lose
                     agent.performance -= 10

@@ -1,6 +1,8 @@
 from src.environmentClass import Environment
 from src.thingClass import Thing
 from src.locations import *
+from src.agentClass import Agent
+
 
 class environmentPro(Environment):
   def __init__(self):
@@ -13,7 +15,6 @@ class environmentPro(Environment):
     return [thing for thing in self.things if thing.location == location and isinstance(thing, thingClass)]
 
   def add_thing(self, thing, location=None):
-    from agentClass import Agent
     if thing in self.agents:
       print("Can't add the same agent twice")
     else:
