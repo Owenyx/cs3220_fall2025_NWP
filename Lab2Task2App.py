@@ -45,9 +45,9 @@ def display_info(house: CatFriendlyHouse):
     def img_md(name):
         return f"![{name}]({getImg(name)})"
 
-    status = status.replace("cat", img_md("cat"))
-    status = status.replace("sausage", img_md("sausage"))
-    status = status.replace("milk", img_md("milk"))
+    status = status.replace("<Agent_Cat>", img_md("cat"))
+    status = status.replace("<Sausage>", img_md("sausage"))
+    status = status.replace("<Milk>", img_md("milk"))
 
     # Display using markdown so images render
     st.markdown(f"**State of the environment:** {status}", unsafe_allow_html=True)
