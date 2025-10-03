@@ -52,13 +52,15 @@ def AgentStep(opt):
 
 
 def main():
+    # Initialize reset bool if missing
+    if "reset" not in st.session_state:
+        st.session_state["reset"] = False
+
     # Initialize house if missing
     if "house" not in st.session_state:
         st.session_state["house"] = None
 
     house = st.session_state["house"]
-
-    st.session_state['reset'] = False
 
     if house is None or st.session_state['reset']:
         house = setup()
