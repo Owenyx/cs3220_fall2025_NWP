@@ -35,20 +35,15 @@ def display_info(house: HouseEnvironment):
     st.info(f"Current step: {st.session_state["step"]}")
 
 
-def handle_step(house: HouseEnvironment):
-    house.step()
-    
-
-
 def drawBtn(e,a):
     option = [e,a]
     st.button("Run One Agent's Step", on_click= AgentStep, args= [option])
     
 def AgentStep(opt):
-    e,a= opt[0],opt[1]
+    e, a = opt[0], opt[1]
     
     if e.is_agent_alive(a):
-        stepActs=e.step()
+        stepActs = e.step()
         st.success("Agent decided to do: {}.".format(",".join(stepActs)))
     else:
         st.error("Agent in location {} and it is dead.".format(a.location))
@@ -70,7 +65,7 @@ def main():
 
     st.title('Lab 2 Task 1')
 
-    display_info()
+    display_info(house)
 
     drawBtn(house, house[0])
 
