@@ -2,6 +2,8 @@ from src.agentPrograms import TableDrivenAgentProgram
 from src.rules import cat_table
 from src.task2.Task2Classes import *
 from src.task2.CatFriendlyHouse import CatFriendlyHouse
+import os
+os.environ["STREAMLIT_WATCHER_TYPE"] = "none" # Fixes error
 import streamlit as st
 
 
