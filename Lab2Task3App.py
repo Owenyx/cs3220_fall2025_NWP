@@ -35,21 +35,37 @@ def drawBtn(e,a):
     
 def AgentStep(opt):
     e, a = opt[0], opt[1]
+
+    if st.session_state["reset"]: # Reset on next button press if flag is on
+        st.session_state["company"] = None
+        st.session_state["reset"] = False
+        return
     
-    if e.is_agent_alive(a):
+    if not e.is_done():
         stepActs = e.step()
         st.success("Agent decided to do: {}.".format(",".join(stepActs)))
         st.session_state["step"] += 1
+    else:
+        if (a.performance < 0): # Failed deliveries
+            st.error("Agent died :(")
+        else: 
+            st.error("Agent reached the end.")
+
+        st.session_state['reset'] = True
     
 
 def main():
-    # Initialize house if missing
+    # Initialize reset flag if missing
+    if "reset" not in st.session_state:
+        st.session_state["reset"] = False
+
+    # Initialize company if missing
     if "company" not in st.session_state:
         st.session_state["company"] = None
 
     company = st.session_state["company"]
 
-    if company is None or company.is_done():
+    if company is None:
         company = setup()
         st.session_state["company"] = company
         st.session_state["step"] = 1 
