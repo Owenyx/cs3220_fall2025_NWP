@@ -49,7 +49,7 @@ def AgentStep(opt):
         if (a.performance < 0): # Failed deliveries
             st.error("Agent died :(")
         else: 
-            st.error("Agent reached the end.")
+            st.success("Agent reached the end.")
 
         st.session_state['reset'] = True
     
