@@ -58,7 +58,7 @@ def main():
     if house is None or house.is_done():
 
         # If is done, then agent just died
-        if house.is_done():
+        if house is not None:
             print("Agent just died :(")
 
         house = setup()
