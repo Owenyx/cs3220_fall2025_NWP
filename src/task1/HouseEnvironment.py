@@ -17,6 +17,18 @@ class HouseEnvironment(Environment):
     def list_things_at(self, location) -> list[Thing]:
         return [thing for thing in self.things if thing.location == location]
     
+    def list_agents_at(self, location) -> list[Agent]:
+        return [agent for agent in self.agents if agent.location == location]
+    
+    def list_all_at(self, location):
+        return self.list_agents_at(location) + self.list_things_at(location)
+    
+    def get_status(self) -> str:
+        room_things = map(self.list_all_at, range(1, 6))
+        r1, r2, r3, r4, r5 = list(room_things)
+        
+        return f"| 1. {r1} | 2. {r2} | 3. {r3} | 4. {r4} | 5. {r5} |"
+    
     def is_agent_alive(self, agent: Agent) -> bool:
         return agent.alive
 
