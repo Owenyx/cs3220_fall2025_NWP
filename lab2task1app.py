@@ -68,3 +68,7 @@ def main():
     display_info()
 
     drawBtn(house, house[0])
+
+
+if __name__ == '__main__':
+    main()
