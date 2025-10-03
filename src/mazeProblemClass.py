@@ -1,6 +1,6 @@
 from src.problemClass import Problem
 
-class VacuumProblem(Problem):
+class MazeProblem(Problem):
 
     '''
     The state space is stored as nested dictionaries
