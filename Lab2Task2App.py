@@ -29,7 +29,7 @@ def display_info(house: CatFriendlyHouse):
     cat = house.agents[0]
     st.info(f"Cat performance: {cat.performance}")
     st.info(f"State of the environment: {house.get_status()}.")
-    st.info(f"Current step: {st.session_state["step"]}")
+    st.info(f"Current step: {st.session_state['step']}")
 
 
 def drawBtn(e,a):
