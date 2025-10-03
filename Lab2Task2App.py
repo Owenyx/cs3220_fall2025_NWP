@@ -8,25 +8,25 @@ import streamlit as st
 def setup():
     # Create Cat Agent Program and agent
     td_catAP = TableDrivenAgentProgram(cat_table)
-    cat_agent = Agent_Cat(TableDrivenAgentProgram(cat_table))
+    cat_agent = Agent_Cat(td_catAP)
 
     # Create house environment
-    env = CatFriendlyHouse()
+    house = CatFriendlyHouse()
 
     # Create food items
     milk = Milk()
     sausage = Sausage()
 
     # Add everything to environment
-    env.add_thing(cat_agent)
-    env.add_thing(milk)
-    env.add_thing(sausage)
+    house.add_thing(cat_agent)
+    house.add_thing(milk)
+    house.add_thing(sausage)
 
 
-def display_info(env: CatFriendlyHouse):
-    cat = env.agents[0]
+def display_info(house: CatFriendlyHouse):
+    cat = house.agents[0]
     st.info(f"Cat performance: {cat.performance}")
-    st.info(f"State of the Environment: {env.get_status()}.")
+    st.info(f"State of the environment: {house.get_status()}.")
     st.info(f"Current step: {st.session_state["step"]}")
 
 
@@ -44,27 +44,27 @@ def AgentStep(opt):
     
 
 def main():
-    # Initialize env if missing
-    if "env" not in st.session_state:
-        st.session_state["env"] = None
+    # Initialize house if missing
+    if "house" not in st.session_state:
+        st.session_state["house"] = None
 
-    env = st.session_state["env"]
+    house = st.session_state["house"]
 
-    if env is None or env.is_done():
+    if house is None or house.is_done():
 
         # If is done, then agent just died
-        if env is not None:
+        if house is not None:
             st.error("Agent has died :(")
 
-        env = setup()
-        st.session_state["env"] = env
+        house = setup()
+        st.session_state["house"] = house
         st.session_state["step"] = 1 
 
     st.title('Lab 2 Task 2')
 
-    display_info(env)
+    display_info(house)
 
-    drawBtn(env, env.agents[0])
+    drawBtn(house, house.agents[0])
 
 
 if __name__ == '__main__':
