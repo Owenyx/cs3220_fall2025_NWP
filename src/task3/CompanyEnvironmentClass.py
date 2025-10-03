@@ -70,4 +70,4 @@ class CompanyEnvironment(environmentPro):
     else:
       r4.append(agent)
         
-    return f"| 1. {r1} | 2. {r2} | 3. {r3} | 4. {r4} |"
+    return f"| A. {r1} | B. {r2} | C. {r3} | D. {r4} |"
