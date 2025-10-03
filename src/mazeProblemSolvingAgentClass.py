@@ -1,12 +1,12 @@
 from src.problemSolvingAgentProgramClass import SimpleProblemSolvingAgentProgram
-from src.vacuumProblemClass import VacuumProblem
+from src.mazeProblemClass import MazeProblem
 
-class VacuumProblemSolvingAgent(SimpleProblemSolvingAgentProgram):
+class MazeProblemSolvingAgent(SimpleProblemSolvingAgentProgram):
   def __init__(self, initial_state=None, dataGraph=None, goal=None):
     super().__init__(initial_state)
     self.dataGraph=dataGraph
     self.goal=goal
-    #instance of Vacuum ProblemClass
+    #instance of Maze ProblemClass
     #self.problem=problem #a description of the states and actions necessary to reach the goal
     #self.goal = self.problem.goal#The agent adopts the goal
 
@@ -22,8 +22,8 @@ class VacuumProblemSolvingAgent(SimpleProblemSolvingAgentProgram):
 
   #a description of the states and actions necessary to reach the goal
   def formulate_problem(self, state, goal):
-    #instance of Vacuum ProblemClass
-    problem = VacuumProblem(state,goal,self.dataGraph)
+    #instance of Maze ProblemClass
+    problem = MazeProblem(state,goal,self.dataGraph)
     return problem  
 
   def search(self, problem):

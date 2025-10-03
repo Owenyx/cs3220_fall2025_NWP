@@ -1,7 +1,7 @@
-from src.vacuumProblemSolvingAgentClass import VacuumProblemSolvingAgent
+from src.mazeProblemSolvingAgentClass import MazeProblemSolvingAgent
 import collections
 
-class VacuumProblemSolvingAgentSMART(VacuumProblemSolvingAgent):
+class MazeProblemSolvingAgentSMART(MazeProblemSolvingAgent):
   def __init__(self, initial_state=None, dataGraph=None, goal=None, program=None):
     super().__init__(initial_state,dataGraph,goal)
 
