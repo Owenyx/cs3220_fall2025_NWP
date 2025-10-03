@@ -1,6 +1,6 @@
 import random
-from src.locations import *
-from src.task3.Task3Classes import *
+from src.locations import loc_A, loc_B, loc_C, loc_D
+from src.task3.Task3Classes import OfficeManager, ITStaff, Student
 
 '''An idea of Random Agent Program is to choose an action at random, ignoring all percepts'''
 def RandomAgentProgram(actions):

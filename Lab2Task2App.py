@@ -1,31 +1,34 @@
-from src.task3.CompanyEnvironmentClass import CompanyEnvironment
-from src.task3.Task3Classes import Student, ITStaff, OfficeManager
-from src.agents import ReflexAgentA2pro
+from src.agentPrograms import TableDrivenAgentProgram
+from src.rules import cat_table
+from src.task2.Task2Classes import Agent_Cat, Sausage, Milk
+from src.task2.CatFriendlyHouse import CatFriendlyHouse
 import streamlit as st
 
 
 def setup():
-    ce=CompanyEnvironment()
+    # Create Cat Agent Program and agent
+    td_catAP = TableDrivenAgentProgram(cat_table)
+    cat_agent = Agent_Cat(td_catAP)
 
-    s=Student()
-    i=ITStaff()
-    o=OfficeManager()
+    # Create house environment
+    house = CatFriendlyHouse()
 
-    ce.add_thing(i)
-    ce.add_thing(s)
-    ce.add_thing(o)
+    # Create food items
+    milk = Milk()
+    sausage = Sausage()
 
-    raTask3pro1=ReflexAgentA2pro()
+    # Add everything to environment
+    house.add_thing(cat_agent)
+    house.add_thing(milk)
+    house.add_thing(sausage)
 
-    ce.add_thing(raTask3pro1)
-
-    return ce
+    return house
 
 
-def display_info(company: CompanyEnvironment):
-    agent = company.agents[0]
-    st.info(f"Agent performance: {agent.performance}")
-    st.info(f"State of the environment: {company.get_status()}.")
+def display_info(house: CatFriendlyHouse):
+    cat = house.agents[0]
+    st.info(f"Cat performance: {cat.performance}")
+    st.info(f"State of the environment: {house.get_status()}.")
     st.info(f"Current step: {st.session_state["step"]}")
 
 
@@ -44,26 +47,26 @@ def AgentStep(opt):
 
 def main():
     # Initialize house if missing
-    if "company" not in st.session_state:
-        st.session_state["company"] = None
+    if "house" not in st.session_state:
+        st.session_state["house"] = None
 
-    company = st.session_state["company"]
+    house = st.session_state["house"]
 
-    if company is None or company.is_done():
+    if house is None or house.is_done():
 
         # If is done, then agent just died
-        if company is not None:
+        if house is not None:
             st.error("Agent has died :(")
 
-        company = setup()
-        st.session_state["company"] = company
+        house = setup()
+        st.session_state["house"] = house
         st.session_state["step"] = 1 
 
     st.title('Lab 2 Task 2')
 
-    display_info(company)
+    display_info(house)
 
-    drawBtn(company, company.agents[0])
+    drawBtn(house, house.agents[0])
 
 
 if __name__ == '__main__':

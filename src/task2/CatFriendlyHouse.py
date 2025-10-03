@@ -1,5 +1,5 @@
 from src.environmentClass import Environment
-from src.task2.Task2Classes import *
+from src.task2.Task2Classes import Agent_Cat, Milk, Sausage, Food
 
 import random
 
