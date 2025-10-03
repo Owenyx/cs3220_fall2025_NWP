@@ -45,7 +45,7 @@ def display_info(house: CatFriendlyHouse):
     def img_md(name):
         return f"![{name}]({getImg(name)})"
 
-    status = status.replace("<Agent_Cat>", img_md("cat"))
+    status = status.replace("<agent_cat>", img_md("cat"))
     status = status.replace("<Sausage>", img_md("sausage"))
     status = status.replace("<Milk>", img_md("milk"))
 
