@@ -57,11 +57,16 @@ def AgentStep(opt):
 
 
 def main():
+    # Initialize house if missing
+    if "house" not in st.session_state:
+        st.session_state["house"] = None
+
     house = st.session_state["house"]
+
     if house is None or house.is_done():
         house = setup()
         st.session_state["house"] = house
-        st.session_state["step"] = 1
+        st.session_state["step"] = 1 
 
     st.title('Lab 2 Task 1')
 
