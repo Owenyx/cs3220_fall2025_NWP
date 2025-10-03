@@ -22,6 +22,8 @@ def setup():
     house.add_thing(milk)
     house.add_thing(sausage)
 
+    return house
+
 
 def display_info(house: CatFriendlyHouse):
     cat = house.agents[0]

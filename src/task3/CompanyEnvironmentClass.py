@@ -53,13 +53,21 @@ class CompanyEnvironment(environmentPro):
     no_agents = not any(agent.is_alive() for agent in self.agents)
     #return no_agents or no_items
     return no_agents
-
-
-
-
-
-
-
-
   
+  def get_status(self):
+    room_things = map(self.list_things_at, self.locations)
 
+    r1, r2, r3, r4 = list(room_things)
+        
+    # Add agent to corrosponding room
+    agent = self.agents[0]
+    if agent.location == 1:
+      r1 = [r1, agent]
+    elif agent.location == 2:
+      r2 = [r2, agent]
+    elif agent.location == 3:
+      r3 = [r3, agent]
+    else:
+      r4 = [r4, agent]
+        
+    return f"| 1. {r1} | 2. {r2} | 3. {r3} | 4. {r4} |"
