@@ -47,6 +47,8 @@ def AgentStep(opt):
             st.success("Cat Won!!!")
         else:
             st.error("Cat died :(")
+        
+        st['reset'] = True
 
 
 def main():
@@ -56,7 +58,9 @@ def main():
 
     house = st.session_state["house"]
 
-    if house is None or house.is_done():
+    st.session_state['reset'] = False
+
+    if house is None or st.session_state['reset']:
         house = setup()
         st.session_state["house"] = house
         st.session_state["step"] = 1 
