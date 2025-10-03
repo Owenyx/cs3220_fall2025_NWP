@@ -67,7 +67,7 @@ def main():
 
     display_info(house)
 
-    drawBtn(house, house[0])
+    drawBtn(house, house.agents[0])
 
 
 if __name__ == '__main__':
