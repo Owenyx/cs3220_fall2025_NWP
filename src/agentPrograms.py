@@ -12,10 +12,9 @@ def TableDrivenAgentProgram(table):
     To customize it, provide as table a dictionary of all 
     {percept_sequence:action} pairs.
     """
-    
+    percepts = []
 
     def program(percept):
-        percepts=[]
         percepts.append(percept)
         #print(tuple(percepts))
         action = table.get(tuple(percepts)) 
