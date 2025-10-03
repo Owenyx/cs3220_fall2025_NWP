@@ -37,7 +37,7 @@ class CatFriendlyHouse(Environment):
         return None
     
     def get_status(self) -> str:
-        room_things = map(self.get_food_at, range(1, 2))
+        room_things = map(self.get_food_at, range(1, 3))
         r1, r2 = list(room_things)
         
         # Add agent to corrosponding room

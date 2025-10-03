@@ -17,6 +17,9 @@ def setup():
     milk = Milk()
     sausage = Sausage()
 
+    house.add_thing(cat_agent)
+    house.add_thing(milk)
+    house.add_thing(sausage)
 
     return house
 
