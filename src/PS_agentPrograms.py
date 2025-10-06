@@ -47,6 +47,12 @@ def BestFirstSearchAgentProgram(f=None):
     return program
   
  
+def IDSearchAgentProgram(f=None):
+  def program(problem):
+    #your code here
+    
+ 
+      
 
 
 
