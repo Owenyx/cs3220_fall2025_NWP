@@ -10,7 +10,7 @@ class SimpleProblemSolvingAgentProgram:
         self.performance=0
         self.alive=True
 
-  def __call__(self, percept, curGoal=None):
+  def __call__(self, percept):
         """Formulate a goal and problem, then
         search for a sequence of actions to solve it."""
         # 4-phase problem-solving process

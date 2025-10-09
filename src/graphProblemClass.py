@@ -12,17 +12,17 @@ class GraphProblem(Problem):
 
     def __init__(self, initial, goal, graph):
         super().__init__(initial, goal)
-        self.graph = graph # The state space - This is `graph data` dictionary
+        self.graph = graph # The state space - This is Graph class
 
     def actions(self, A):
         """The actions at a graph node are just its neighbors."""
         return list(self.graph.get(A).keys()) # List of neighbours
 
     def result(self, state, action):
-      #A transition model
+      # A transition model
         """The result of going to a neighbor is just that neighbor."""
         return action 
 
-    def path_cost(self, cost_so_far, A, action, B):
+    def path_cost(self, cost_so_far, A, B):
       #An action cost function
         return cost_so_far + self.graph.get(A, B)
