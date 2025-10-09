@@ -17,9 +17,9 @@ actions_dict = {
 
 def makeMaze(n):
   size = (n,n)
-  proba_0 =0.2 # resulting array will have 30% of zeros
-  #proba_food =0.2 # resulting array will have 30% of zeros
-  arrMaze=np.random.choice([0, 1], size=size, p=[proba_0, 1-proba_0])
+  proba_0 =0.2 # resulting array will have 20% of zeros
+  proba_food =0.1 # resulting array will have 10% of food pellets
+  arrMaze=np.random.choice([0, 1,2], size=size, p=[proba_0, 1-proba_0-proba_food,proba_food])
   return arrMaze
 
 
