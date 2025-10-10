@@ -6,9 +6,9 @@ import networkx as nx #Networkx for creating graph data
 from pyvis.network import Network #to create the graph as an interactive html object
 
 from src.graphClass import Graph
-from data.boatData import boat_data, boat_action_costs
-from src.agents import ProblemSolvingBoatAgentBFS
-from src.task1.RiverEnvironment import RiverEnvironment
+from data.mazeData import maze_data, maze_action_costs
+from src.agents import ProblemSolvingMazeAgentBFS
+from src.task2.MazeEnvironment import MazeEnvironment
 
 
 def drawBtn(e,a,c):
@@ -16,7 +16,7 @@ def drawBtn(e,a,c):
     st.button("Run One Agent's Step", on_click= AgentStep, args= [option])
     
 def AgentStep(opt):
-    st.header("Crossing River ...")
+    st.header("Solving Maze ...")
     e,a,c= opt[0],opt[1],opt[2]
     if not st.session_state["clicked"]:
         st.session_state["env"]=e
@@ -65,8 +65,8 @@ def buildGraph(graphData, nodeColorsDict):
     # generate the graph
     net.from_nx(g)
     
-    net.save_graph('L3_boatGraph.html')
-    HtmlFile = open(f'L3_boatGraph.html', 'r', encoding='utf-8')
+    net.save_graph('L3_mazeGraph.html')
+    HtmlFile = open(f'L3_mazeGraph.html', 'r', encoding='utf-8')
     components.html(HtmlFile.read(), height = 1000,width=1000)
     
     
@@ -93,25 +93,25 @@ def main():
         st.header("The wolf, goat, and the cabbage problem")
         st.header("_Initial Env._", divider=True)
         
-        boat_graph = Graph(boat_data, boat_action_costs)
-        nodeColors=makeDefaultColors(boat_graph.graph_dict)
+        maze_graph = Graph(maze_data, maze_action_costs)
+        nodeColors=makeDefaultColors(maze_graph.graph_dict)
         
         initState="LLLL"
         goalState="RRRR"
         
-        env=RiverEnvironment(boat_graph)
-        bfsBoatAgent=ProblemSolvingBoatAgentBFS(initState, boat_graph, goalState)        
+        env=MazeEnvironment(maze_graph)
+        bfsMazeAgent=ProblemSolvingMazeAgentBFS(initState, maze_graph, goalState)        
                       
-        env.add_thing(bfsBoatAgent)
+        env.add_thing(bfsMazeAgent)
 
         st.header("State of the Environment", divider="red")
-        nodeColors[bfsBoatAgent.state]="red"
-        nodeColors[bfsBoatAgent.goal]="green"
-        buildGraph(boat_graph, nodeColors) 
-        st.info(f"The Agent in: {bfsBoatAgent.state} with performance {bfsBoatAgent.performance}.")
-        st.info(f"The Agent goal is: {bfsBoatAgent.goal} .")
+        nodeColors[bfsMazeAgent.state]="red"
+        nodeColors[bfsMazeAgent.goal]="green"
+        buildGraph(maze_graph, nodeColors) 
+        st.info(f"The Agent in: {bfsMazeAgent.state} with performance {bfsMazeAgent.performance}.")
+        st.info(f"The Agent goal is: {bfsMazeAgent.goal} .")
                 
-        drawBtn(env, bfsBoatAgent, nodeColors)
+        drawBtn(env, bfsMazeAgent, nodeColors)
     
             
         
