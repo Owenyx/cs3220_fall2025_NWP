@@ -6,7 +6,7 @@ import networkx as nx #Networkx for creating graph data
 from pyvis.network import Network #to create the graph as an interactive html object
 
 from src.graphClass import Graph
-from data.boatData import boat_data, boat_action_costs
+from data.boatData import boat_data, boat_action_costs, node_coords
 from src.agents import ProblemSolvingBoatAgentBFS
 from src.task1.RiverEnvironment import RiverEnvironment
 
@@ -52,7 +52,8 @@ def buildGraph(graphData, nodeColorsDict):
     
     # add the nodes
     for node in nodes:
-        g.add_node(node, color=nodeColorsDict[node])
+        x, y = node_coords[node]
+        g.add_node(node, color=nodeColorsDict[node], x=x, y=y, fixed=True)
 
     # add the edges
     edges=[]
