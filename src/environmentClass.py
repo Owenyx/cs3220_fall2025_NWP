@@ -56,15 +56,12 @@ class Environment:
             self.step()
 
   def add_thing(self, thing, location=None):
-    #from agentClass import Agent
     from src.problemSolvingAgentProgramClass import SimpleProblemSolvingAgentProgram
     if thing in self.agents:
       print("Can't add the same agent twice")
     else:
       if isinstance(thing, SimpleProblemSolvingAgentProgram):
-        thing(thing.state)
-        #thing.performance = 0
-        #thing.location = location if location is not None else self.default_location(thing)
+        thing.run()
         print(f"The Agent in {thing.state} with performance {thing.performance}")
         self.agents.append(thing)
         
