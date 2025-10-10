@@ -12,17 +12,18 @@ from src.task2.MazeEnvironment import MazeEnvironment
 import random
 
 
-def drawBtn(e,a,c):
-    option= [e,a,c]
+def drawBtn(e,a,c,s):
+    option= [e,a,c,s]
     st.button("Run One Agent's Step", on_click= AgentStep, args= [option])
     
 def AgentStep(opt):
     st.header("Solving Maze ...")
-    e,a,c= opt[0],opt[1],opt[2]
+    e,a,c,s= opt[0],opt[1],opt[2],opt[3]
     if not st.session_state["clicked"]:
         st.session_state["env"]=e
         st.session_state["agent"]=a
         st.session_state["nodeColors"]=c    
+        st.session_state["nodeShapes"]=s
     
     if e.is_agent_alive(a):
         e.step()
@@ -41,7 +42,7 @@ def AgentStep(opt):
         
     
         
-def buildGraph(graphData, nodeColorsDict):
+def buildGraph(graphData, nodeColorsDict, nodeShapesDict):
     net = Network(
                 bgcolor ="#242020",
                 font_color = "white",
@@ -53,7 +54,7 @@ def buildGraph(graphData, nodeColorsDict):
     
     # add the nodes
     for node in nodes:
-        g.add_node(node, color=nodeColorsDict[node])
+        g.add_node(node, color=nodeColorsDict[node], shape=nodeShapesDict[node])
 
     # add the edges
     edges=[]
@@ -76,6 +77,11 @@ def makeDefaultColors(dictData):
     return nodeColors
 
 
+def makeDefaultShapes(dictData):
+    nodeShapes=dict.fromkeys(dictData.keys(), "circle")
+    return nodeShapes
+
+
 def main():
     if "clicked" not in st.session_state:
         st.session_state["clicked"] = False
@@ -88,6 +94,9 @@ def main():
         
     if "nodeColors" not in st.session_state:
         st.session_state["nodeColors"]=None
+
+    if "nodeShapes" not in st.session_state:
+        st.session_state["nodeShapes"]=None
         
     if not st.session_state["clicked"]:
         # Set header title
@@ -96,6 +105,7 @@ def main():
         
         maze_graph = Graph(maze_data, maze_action_costs)
         nodeColors=makeDefaultColors(maze_graph.graph_dict)
+        nodeShapes=makeDefaultShapes(maze_graph.graph_dict)
         
         init_state="N1"
         # Choose 4 random treasure states as possible goals
@@ -108,20 +118,35 @@ def main():
         env.add_thing(bfsMazeAgent)
 
         st.header("State of the Environment", divider="red")
-        nodeColors[bfsMazeAgent.state]="red"
-        nodeColors[bfsMazeAgent.goal]="green"
-        buildGraph(maze_graph, nodeColors) 
+        nodeColors[init_state]="red"
+        nodeColors[end_state]="green"
+        
+        # Set up custom colors and shapes for treasures
+        # Pile of gold
+        nodeColors[goals[0]] = "gold"
+        nodeShapes[goals[0]] = "triangle"
+        # Diamond
+        nodeColors[goals[0]] = "teal"
+        nodeShapes[goals[0]] = "diamond"
+        # Flyer for 100 free pizzas
+        nodeColors[goals[0]] = "beige"
+        nodeShapes[goals[0]] = "box"
+        # 20 Extra points on exam
+        nodeColors[goals[0]] = "LimeGreen"
+        nodeShapes[goals[0]] = "star"
+            
+        buildGraph(maze_graph, nodeColors, nodeShapes) 
         st.info(f"The Agent in: {bfsMazeAgent.state} with performance {bfsMazeAgent.performance}.")
         st.info(f"The Agent goal is: {bfsMazeAgent.goal} .")
                 
-        drawBtn(env, bfsMazeAgent, nodeColors)
+        drawBtn(env, bfsMazeAgent, nodeColors, nodeShapes)
     
             
         
     if st.session_state["clicked"]:
         if st.session_state["env"].is_agent_alive(st.session_state["agent"]):
             st.success(" Agent is working...")
-            drawBtn(st.session_state["env"],st.session_state["agent"], st.session_state["nodeColors"])
+            drawBtn(st.session_state["env"],st.session_state["agent"], st.session_state["nodeColors"], st.session_state["nodeShapes"])
 
 
 if __name__ == '__main__':
