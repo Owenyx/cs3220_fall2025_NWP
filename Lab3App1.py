@@ -41,7 +41,7 @@ def AgentStep(opt):
     
         
 def buildGraph(graphData, nodeColorsDict):
-    netRomania = Network(
+    net = Network(
                 bgcolor ="#242020",
                 font_color = "white",
                 height = "750px",
@@ -63,11 +63,11 @@ def buildGraph(graphData, nodeColorsDict):
     g.add_edges_from(edges)
     
     # generate the graph
-    netRomania.from_nx(g)
+    net.from_nx(g)
     
-    netRomania.save_graph('L3_RomaniaMap.html')
-    HtmlFile = open(f'L3_RomaniaMap.html', 'r', encoding='utf-8')
-    components.html(HtmlFile.read(), height = 1200,width=1000)
+    net.save_graph('L3_boatGraph.html')
+    HtmlFile = open(f'L3_boatGraph.html', 'r', encoding='utf-8')
+    components.html(HtmlFile.read(), height = 1000,width=1000)
     
     
 def makeDefaultColors(dictData):
@@ -90,7 +90,7 @@ def main():
         
     if not st.session_state["clicked"]:
         # Set header title
-        st.header("Problem Solving Agents: Romania Navigation Problem")
+        st.header("The wolf, goat, and the cabbage problem")
         st.header("_Initial Env._", divider=True)
         
         boat_graph = Graph(boat_data, boat_action_costs)
@@ -117,7 +117,6 @@ def main():
         
     if st.session_state["clicked"]:
         if st.session_state["env"].is_agent_alive(st.session_state["agent"]):
-            #st.warning("Agent Step Done!")
             st.success(" Agent is working...")
             drawBtn(st.session_state["env"],st.session_state["agent"], st.session_state["nodeColors"])
 
