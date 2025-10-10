@@ -38,7 +38,7 @@ class Node:
         next_state = problem.result(self.state, action)
         # and generating a new node (called a child node)
         #for each of the resulting states
-        next_node = Node(next_state, self, action, problem.path_cost(self.path_cost, self.state, next_state))
+        next_node = Node(next_state, self, action, problem.path_cost(self.path_cost, self.state, action, next_state))
         return next_node
 
     def solution(self):
