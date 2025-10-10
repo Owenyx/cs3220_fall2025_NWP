@@ -127,14 +127,14 @@ def main():
         nodeColors[goals[0]] = "gold"
         nodeShapes[goals[0]] = "triangle"
         # Diamond
-        nodeColors[goals[0]] = "teal"
-        nodeShapes[goals[0]] = "diamond"
+        nodeColors[goals[1]] = "teal"
+        nodeShapes[goals[1]] = "diamond"
         # Flyer for 100 free pizzas
-        nodeColors[goals[0]] = "beige"
-        nodeShapes[goals[0]] = "box"
+        nodeColors[goals[2]] = "beige"
+        nodeShapes[goals[2]] = "box"
         # 20 Extra points on exam
-        nodeColors[goals[0]] = "LimeGreen"
-        nodeShapes[goals[0]] = "star"
+        nodeColors[goals[3]] = "LimeGreen"
+        nodeShapes[goals[3]] = "star"
             
         buildGraph(maze_graph, nodeColors, nodeShapes) 
         st.info(f"The Agent in: {bfsMazeAgent.state} with performance {bfsMazeAgent.performance}.")
