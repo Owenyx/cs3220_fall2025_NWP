@@ -31,6 +31,3 @@ class Graph:
             return links
         else:
             return links.get(b)
-  
-  def getLocation(self,a):
-      return self.locations.get(a)  

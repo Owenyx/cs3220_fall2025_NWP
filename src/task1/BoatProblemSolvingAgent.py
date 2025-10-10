@@ -30,7 +30,7 @@ class BoatProblemSolvingAgent(SimpleProblemSolvingAgentProgram):
 
 
   def update_state(self, state, percept):
-    return percept
+    return self.dataGraph.origin[state][percept]
 
   def formulate_goal(self, state):
     if self.goal is not None:

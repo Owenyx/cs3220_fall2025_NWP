@@ -16,7 +16,7 @@ def drawBtn(e,a,c):
     st.button("Run One Agent's Step", on_click= AgentStep, args= [option])
     
 def AgentStep(opt):
-    st.header("Resolving Romania Navigation Problem ...")
+    st.header("Crossing River ...")
     e,a,c= opt[0],opt[1],opt[2]
     if not st.session_state["clicked"]:
         st.session_state["env"]=e
@@ -73,14 +73,9 @@ def buildGraph(graphData, nodeColorsDict):
 def makeDefaultColors(dictData):
     nodeColors=dict.fromkeys(dictData.keys(), "white")
     return nodeColors
-        
-    
-
 
 
 def main():
-    
-        
     if "clicked" not in st.session_state:
         st.session_state["clicked"] = False
         
