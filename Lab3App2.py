@@ -114,9 +114,7 @@ def main():
         end_state="N26"
         
         env=MazeEnvironment(maze_graph)
-        bfsMazeAgent=ProblemSolvingMazeAgentBFS(init_state, maze_graph, goals, end_state)        
-                      
-        env.add_thing(bfsMazeAgent)
+        bfsMazeAgent=ProblemSolvingMazeAgentBFS(init_state, maze_graph, goals, end_state)       
 
         st.header("State of the Environment", divider="red")
         nodeColors[init_state]="red"
@@ -138,7 +136,9 @@ def main():
             
         buildGraph(maze_graph, nodeColors, nodeShapes) 
         st.info(f"The Agent in: {bfsMazeAgent.state} with performance {bfsMazeAgent.performance}.")
-        st.info(f"The Agent goal is: {bfsMazeAgent.goal[0]} .")
+        st.info(f"The Agent goal is: {bfsMazeAgent.goal} .")
+
+        env.add_thing(bfsMazeAgent)
                 
         drawBtn(env, bfsMazeAgent, nodeColors, nodeShapes)
     
