@@ -72,7 +72,7 @@ class MazeProblemSolvingAgent(SimpleProblemSolvingAgentProgram):
       # 4-phase problem-solving process
       goal = current_goal
       problem = self.formulate_problem(self.state, goal)
-      self.seq.append(self.search(problem))
+      self.seq.extend(self.search(problem))
       self.goal.remove(goal)
       print("goal list:", self.goal)
 
