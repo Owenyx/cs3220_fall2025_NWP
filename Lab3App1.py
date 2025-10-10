@@ -67,7 +67,7 @@ def buildGraph(graphData, nodeColorsDict):
     
     net.save_graph('L3_boatGraph.html')
     HtmlFile = open(f'L3_boatGraph.html', 'r', encoding='utf-8')
-    components.html(HtmlFile.read(), height = 1000,width=1000)
+    components.html(HtmlFile.read(), height = 800,width=1000)
     
     
 def makeDefaultColors(dictData):
