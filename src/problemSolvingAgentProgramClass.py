@@ -14,9 +14,6 @@ class SimpleProblemSolvingAgentProgram:
         """Formulate a goal and problem, then
         search for a sequence of actions to solve it."""
         # 4-phase problem-solving process
-        temp = self.state
-        self.state = self.update_state(self.state, percept) # Update state according to what we see
-        
         if not self.seq:
             goal = self.formulate_goal(self.state)
             
