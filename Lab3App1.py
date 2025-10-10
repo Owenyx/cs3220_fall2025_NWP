@@ -98,7 +98,7 @@ def main():
         st.header("Problem Solving Agents: Romania Navigation Problem")
         st.header("_Initial Env._", divider=True)
         
-        boat_graph = Graph(boat_data)
+        boat_graph = Graph(boat_data, boat_action_costs)
         nodeColors=makeDefaultColors(boat_graph.graph_dict)
         
         initState="LLLL"
