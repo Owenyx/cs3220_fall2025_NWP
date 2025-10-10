@@ -75,7 +75,6 @@ class MazeProblemSolvingAgent(SimpleProblemSolvingAgentProgram):
       problem = self.formulate_problem(start, goal)
       self.seq.extend(self.search(problem))
       start=current_goal # Start at goal next search
-      print("GOAL", start)
       self.goal.remove(goal)
       print("goal list:", self.goal)
 
