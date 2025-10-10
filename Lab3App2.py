@@ -6,7 +6,7 @@ import networkx as nx #Networkx for creating graph data
 from pyvis.network import Network #to create the graph as an interactive html object
 
 from src.graphClass import Graph
-from data.mazeData import maze_data, maze_action_costs, treasure_states
+from data.mazeData import maze_data, maze_action_costs, treasure_states, node_coords
 from src.agents import ProblemSolvingMazeAgentBFS
 from src.task2.MazeEnvironment import MazeEnvironment
 import random
@@ -31,7 +31,7 @@ def AgentStep(opt):
         st.info("Current Agent performance {}:".format(a.performance))
         c[a.state]="orange"
         st.info("State of the Environment:")
-        buildGraph(e.status, c) 
+        buildGraph(e.status, c, s) 
     else:
         if a.state==a.goal:
             st.success(" Agent now at the goal state: {}.".format(a.state))
@@ -54,7 +54,8 @@ def buildGraph(graphData, nodeColorsDict, nodeShapesDict):
     
     # add the nodes
     for node in nodes:
-        g.add_node(node, color=nodeColorsDict[node], shape=nodeShapesDict[node])
+        x, y = node_coords[node]
+        g.add_node(node, color=nodeColorsDict[node], shape=nodeShapesDict[node], x=x, y=y, fixed=True)
 
     # add the edges
     edges=[]
@@ -69,7 +70,7 @@ def buildGraph(graphData, nodeColorsDict, nodeShapesDict):
     
     net.save_graph('L3_mazeGraph.html')
     HtmlFile = open(f'L3_mazeGraph.html', 'r', encoding='utf-8')
-    components.html(HtmlFile.read(), height = 1000,width=1000)
+    components.html(HtmlFile.read(), height = 800,width=1000)
     
     
 def makeDefaultColors(dictData):

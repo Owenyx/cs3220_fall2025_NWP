@@ -61,22 +61,18 @@ class MazeProblemSolvingAgent(SimpleProblemSolvingAgentProgram):
 
   def run(self):
     print("goal list:", self.goal)
-    percept=self.state
 
     while len(self.goal) > 0:
       
       current_goal = self.goal[0]
 
-      print("current percept:", percept)
       print("current goal:", current_goal)
       
       """Formulate a goal and problem, then search for a sequence of actions to solve it."""
       # 4-phase problem-solving process
-      self.state = self.update_state(self.state, percept)
       goal = current_goal
       problem = self.formulate_problem(self.state, goal)
       self.seq.append(self.search(problem))
-      percept=current_goal
       self.goal.remove(goal)
       print("goal list:", self.goal)
 
