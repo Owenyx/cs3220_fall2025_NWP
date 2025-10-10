@@ -5,6 +5,7 @@ from src.vacuumProblemSolvingAgentSMARTClass import VacuumProblemSolvingAgentSMA
 #from vacuumProblemSolvingAgentShowClass import VacuumProblemSolvingAgentDraw
 from src.navProblemSolvingAgentClass import navProblemSolvingAgent
 from src.task1.BoatProblemSolvingAgent import BoatProblemSolvingAgent
+from src.task2.MazeProblemSolvingAgent import MazeProblemSolvingAgent
 
 
 def ProblemSolvingVacuumAgentBFS(initState,vacuumWorldGraph,goalState):
@@ -17,6 +18,10 @@ def ProblemSolvingNavAgentBFS(initState,WorldGraph,goalState):
 
 def ProblemSolvingBoatAgentBFS(initState, BoatGraph, goalState):
     return BoatProblemSolvingAgent(initState, BoatGraph, goalState, BestFirstSearchAgentProgram())
+
+
+def ProblemSolvingMazeAgentBFS(initState, MazeGraph, goalStates, endState):
+    return MazeProblemSolvingAgent(initState, MazeGraph, goalStates, endState, BestFirstSearchAgentProgram())
 
 # def ProblemSolvingVacuumAgentBFSwithShow(initState,vacuumWorldGraph,goalState):
 #     return VacuumProblemSolvingAgentDraw(initState,vacuumWorldGraph,goalState,BestFirstSearchAgentProgramForShow())

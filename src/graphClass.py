@@ -1,31 +1,22 @@
 class Graph:
-    '''A graph connects nodes (vertices) by edges (links). Each edge can also
-    have a length associated with it. The constructor call is something like:
-        g = Graph({'A': {'B': 1, 'C': 2})
-    this makes a graph with 3 nodes, A, B, and C, with an edge of length 1 from
-    A to B,  and an edge of length 2 from A to C. 
-    
-    This makes an undirected graph, so inverse links are also added. 
-    If you add more links with g.connect('B', 'C', 3), then inverse link is also added. 
-    You can use g.nodes() to get a list of nodes,
-    g.get('A') to get a dict of links out of A, 
-    and g.get('A', 'B') to get the length of the link from A to B.
-    '''
-    def __init__(self, graph_dict=None):
-      self.graph_dict = graph_dict or {}
-      # Passed graph_dict is directed, so make_graph makes it undirected by adding symmetric edges
-      self.make_graph()
+    def __init__(self, graph_dict=None, action_costs=None):
+      '''
+      graph_dict is { src: { dst: action } }
+      action_costs is { action: cost }
+      '''
+      self.origin = graph_dict
+      self.graph_dict = dict()
+      self.make_graph(graph_dict, action_costs)
 
-    def make_graph(self):
-        """Make a digraph into an undirected graph by adding symmetric edges."""
-        for a in list(self.graph_dict.keys()): # A city node
-            for (b, dist) in self.graph_dict[a].items(): # B is reachable from A with cost of dist
-                self.connect(b, a, dist)
+    def make_graph(self, graph_dict, action_costs):
+        """Make the graph into {src: {dst: cost}}"""
+        for src in list(graph_dict.keys()): 
+            for (dst, action) in graph_dict[src].items(): # B is reachable from A through action
+                self.connect(src, dst, action_costs[action])
 
     def connect(self, A, B, distance):
         """Add a link from A to B of given distance, in one direction only."""
         self.graph_dict.setdefault(A, {})[B] = distance 
-        # setdefault is like ?? operator, if A is none then create empty dict, otherwise index the dict at A
 
     def get(self, a, b=None):
         """Return a link distance or a dict of {node: distance} entries.
@@ -39,9 +30,4 @@ class Graph:
 
     def nodes(self):
         """Return a list of nodes in the graph."""
-        s1 = set([k for k in self.graph_dict.keys()])
-        s2 = set([k2 for v in self.graph_dict.values() for k2, v2 in v.items()])
-        nodes = s1.union(s2)
-        return list(nodes)
-
-
+        return [k for k in self.graph_dict.keys()]

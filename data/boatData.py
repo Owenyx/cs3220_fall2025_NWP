@@ -1,22 +1,23 @@
 # Shorthand for actions
-# bl = 'Boat Left'
-# br = 'Boat Right'
-# lw = 'Load Wolf'
-# uw = 'Unload Wolf'
-# lg = 'Load Goat'
-# ug = 'Unload Goat'
-# lc = 'Load Cabbage'
-# uc = 'Unload Cabbage'
+bl = 'Boat Left'
+br = 'Boat Right'
+lw = 'Load Wolf'
+uw = 'Unload Wolf'
+lg = 'Load Goat'
+ug = 'Unload Goat'
+lc = 'Load Cabbage'
+uc = 'Unload Cabbage'
 
-# Use costs instead
-bl = 1
-br = 1
-lw = 3
-uw = 3
-lg = 3
-ug = 3
-lc = 2
-uc = 2
+boat_action_costs = {
+    bl: 1,
+    br: 1,
+    lw: 3,
+    uw: 3,
+    lg: 3,
+    ug: 3,
+    lc: 2,
+    uc: 2,
+}
 
 boat_data=dict(
     LLLL=dict(LLBL=lc, LBLL=lg, BLLL=lw),

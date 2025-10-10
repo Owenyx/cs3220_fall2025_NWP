@@ -1,21 +1,21 @@
 from src.environmentClass import Environment
-from src.task1.BoatProblemSolvingAgent import BoatProblemSolvingAgent
+from src.task2.MazeProblemSolvingAgent import MazeProblemSolvingAgent
 
 
-class RiverEnvironment(Environment):
-  def __init__(self, boat_graph):
+class MazeEnvironment(Environment):
+  def __init__(self, maze_graph):
     super().__init__()
-    self.status = boat_graph
+    self.status = maze_graph
     
 
   def percept(self, agent):
     # Returns the agent's state
     return agent.state
 
-  def is_agent_alive(self, agent: BoatProblemSolvingAgent):
+  def is_agent_alive(self, agent: MazeProblemSolvingAgent):
     return agent.alive
 
-  def update_agent_alive(self, agent: BoatProblemSolvingAgent):
+  def update_agent_alive(self, agent: MazeProblemSolvingAgent):
     if agent.performance <= 0:
       agent.alive = False
       print("Agent {} is dead.".format(agent))
@@ -29,7 +29,7 @@ class RiverEnvironment(Environment):
         print(f"Agent reached the goal: {agent.goal}")
       
 
-  def execute_action(self, agent: BoatProblemSolvingAgent, action: str):
+  def execute_action(self, agent: MazeProblemSolvingAgent, action: str):
     '''Check if agent alive, if so, execute action'''
     if self.is_agent_alive(agent):
         """
