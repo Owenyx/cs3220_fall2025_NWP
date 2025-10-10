@@ -17,8 +17,8 @@ actions_dict = {
 
 def makeMaze(n):
   size = (n,n)
-  proba_0 =0.2 # resulting array will have 30% of zeros
-  #proba_food =0.2 # resulting array will have 30% of zeros
+  proba_0 = 0.2 # resulting array will have 20% of zeros
+  #proba_food = 0.2 # resulting array will have 20% of food
   arrMaze=np.random.choice([0, 1], size=size, p=[proba_0, 1-proba_0])
   return arrMaze
 
@@ -50,6 +50,7 @@ def defineMazeActions(arr):
 
 
 def defineMazeAvailableActions(arr):
+  # Arr is maze
   n=arr.shape[0]
   mazeAvailableActions={}
   for i in range(n):
@@ -193,6 +194,7 @@ def mazeStatesRandomLocations(n):
 
 
 def mazeStatesLocations(keyList): 
+  # Creates node coordinates to separate them in pyvis network
   x = []
   y = []
   

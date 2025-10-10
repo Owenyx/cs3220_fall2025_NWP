@@ -49,6 +49,7 @@ def BestFirstSearchAgentProgram(f=None):
  
 def IDSearchAgentProgram(f=None):
   def program(problem):
+     pass
     #your code here
     
  
