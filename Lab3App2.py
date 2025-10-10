@@ -74,7 +74,7 @@ def buildGraph(graphData, nodeColorsDict, nodeShapesDict):
     
     
 def makeDefaultColors(dictData):
-    nodeColors=dict.fromkeys(dictData.keys(), "white")
+    nodeColors=dict.fromkeys(dictData.keys(), "gray")
     return nodeColors
 
 
