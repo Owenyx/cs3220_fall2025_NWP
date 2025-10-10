@@ -6,9 +6,10 @@ import networkx as nx #Networkx for creating graph data
 from pyvis.network import Network #to create the graph as an interactive html object
 
 from src.graphClass import Graph
-from data.mazeData import maze_data, maze_action_costs
+from data.mazeData import maze_data, maze_action_costs, treasure_states
 from src.agents import ProblemSolvingMazeAgentBFS
 from src.task2.MazeEnvironment import MazeEnvironment
+import random
 
 
 def drawBtn(e,a,c):
@@ -96,11 +97,13 @@ def main():
         maze_graph = Graph(maze_data, maze_action_costs)
         nodeColors=makeDefaultColors(maze_graph.graph_dict)
         
-        initState="LLLL"
-        goalState="RRRR"
+        init_state="N1"
+        # Choose 4 random treasure states as possible goals
+        goals = random.choices(treasure_states, k=4)
+        end_state="N26"
         
         env=MazeEnvironment(maze_graph)
-        bfsMazeAgent=ProblemSolvingMazeAgentBFS(initState, maze_graph, goalState)        
+        bfsMazeAgent=ProblemSolvingMazeAgentBFS(init_state, maze_graph, goals, end_state)        
                       
         env.add_thing(bfsMazeAgent)
 
