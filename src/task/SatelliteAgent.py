@@ -3,7 +3,7 @@ from src.mazeProblemClass import MazeProblem
 import collections
 
 
-class MazeProblemSolvingAgent(SimpleProblemSolvingAgentProgram):
+class SatelliteAgent(SimpleProblemSolvingAgentProgram):
   def __init__(self, initial_state=None, dataGraph=None, goal=None, program=None):
     super().__init__(initial_state)
     self.dataGraph=dataGraph
