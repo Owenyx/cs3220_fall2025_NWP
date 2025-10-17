@@ -6,6 +6,7 @@ import networkx as nx #Networkx for creating graph data
 from pyvis.network import Network #to create the graph as an interactive html object
 
 from src.CSPclass import CSPBasic
+from src.algorithms import AC3
 
 nodeColors={
     "empty":"white",
@@ -28,7 +29,16 @@ def main():
         sudokuNeighbors,sudokuDomains,sudokuConstraints1=getSudokuData()        
         basicSudokuCSP=CSPBasic(variables=sudokuNeighbors.keys(),neighbors=sudokuNeighbors, domains=sudokuDomains, constraints=sudokuConstraints1)
 
-        buildGraph(basicSudokuCSP, nodeColors) 
+        buildGraph(basicSudokuCSP, nodeColors)
+        
+        if st.button("Run AC-3"):
+            AC3(basicSudokuCSP)
+            buildGraph(basicSudokuCSP, nodeColors, True)
+            
+        
+        #st.button("Run AC-3", on_click= , args= [option])
+        
+         
 
         
 def getSudokuData():
@@ -47,6 +57,11 @@ def getSudokuData():
         for number in var2:
             sudokuNeighbors[letter+str(number)]=[]
             
+    for key1 in sudokuNeighbors.keys():
+        for key2 in sudokuNeighbors.keys():
+            if key1!=key2:
+                sudokuNeighbors[key1].append(key2)
+            
     sudokuDomains={var:[filled[var]] if var in filled else [ch for ch in range(1,10)] for var in sudokuNeighbors.keys()}
     sudokuConstraints1 = lambda X, x, Y, y: x!=y
     
@@ -55,24 +70,37 @@ def getSudokuData():
         
         
         
-def buildGraph(SudokuCSP, nodeColors):
+def buildGraph(SudokuCSP, nodeColors, ac3=False):
     netSudoku= Network(
                 bgcolor ="#242020",
                 font_color = "white",
                 height = "750px",
-                width = "100%") 
+                width = "100%"
+                ) 
     
     nodeColorsDict={}
     nodeTitlesDict={}
+    nodeLabelsDict={}
     nodes=list(SudokuCSP.variables)
 
     for node in nodes:
         if len(SudokuCSP.domains[node])==1:
             nodeColorsDict.setdefault(node,nodeColors["filled"])
-            nodeTitlesDict.setdefault(node,str(SudokuCSP.domains[node][0]))            
+            if ac3:
+                nodeTitlesDict.setdefault(node,str(SudokuCSP.curr_domains[node][0]))
+            else:
+                nodeTitlesDict.setdefault(node,str(SudokuCSP.domains[node][0]))
+            nodeLabelsDict.setdefault(node,str(SudokuCSP.domains[node][0]))           
         else:
             nodeColorsDict.setdefault(node,nodeColors["empty"])
-            nodeTitlesDict.setdefault(node,"")    
+            if ac3:
+                string_list = [str(i) for i in SudokuCSP.curr_domains[node]]
+               
+            else:
+                string_list = [str(i) for i in SudokuCSP.domains[node]]
+            nodeTitlesDict.setdefault(node, ",".join(string_list) )
+                
+            nodeLabelsDict.setdefault(node,"")      
            
             
     x_coords = {}
@@ -94,9 +122,10 @@ def buildGraph(SudokuCSP, nodeColors):
     
     # add the nodes
     for node in nodes:
-        g.add_node(node, color=nodeColorsDict[node], size=10, title=nodeTitlesDict[node],  x_coord=x_coords[node],y_coord=y_coords[node])
+        g.add_node(node, color=nodeColorsDict[node], size=10, title=nodeTitlesDict[node], label=nodeLabelsDict[node],  x_coord=x_coords[node],y_coord=y_coords[node])
 
     # add the edges
+    print(SudokuCSP.neighbors)
     
     
     for nodeFrom in SudokuCSP.neighbors.keys():
@@ -108,9 +137,10 @@ def buildGraph(SudokuCSP, nodeColors):
             else:
                 g.add_edge(nodeFrom,nodeTo, color="green") # diag con-s
             
-        
+    print(g.edges)
     # generate the graph
     netSudoku.from_nx(g)
+    #netSudoku.toggle_physics(False)
     
     netSudoku.save_graph('L6_SimpleSudoku.html')
     HtmlFile = open(f'L6_SimpleSudoku.html', 'r', encoding='utf-8')
