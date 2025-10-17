@@ -55,7 +55,7 @@ def main():
         vars=list(basicSudokuCSP.variables)
         print(vars)
         
-        j=0
+        '''j=0
         
         for i in range(num_rows):
             # Create a set of columns for each row
@@ -71,22 +71,27 @@ def main():
                         #st.number_input("filled",value=options[0], disabled =True, key=f"filled_cell_{vars[j]}", label_visibility="hidden", step=None)
                     else:
                         st.selectbox("select",options,label_visibility="hidden", key=f"empty_cell_{vars[j]}")
-                j+=1
+                j+=1'''
+        
         j=0
         for i in range(num_rows):
             # Create a set of columns for each row
             cols = st.columns(columns_per_row)
             
             # Place elements within each column of the current row
+            #img = Image.open("images/top_spiderman.png")
+            #st.button(st.image(img))
             for col_index, col in enumerate(cols):
                 with col:
                     options=basicSudokuCSP.domains[vars[j]]
                     if len(options)==1:
-                        val=options[0]                    
+                        val=options[0]
+                        print(val, imgCell[str(val)])                    
                         if st_image_button(f"{vars[j]}",imgCell[str(val)] , key=f"button_{vars[j]}"):
                             st.session_state.last_click = vars[j]
                     else:
                         val="empty"
+                        print(val, imgCell[str(val)])     
                         if st_image_button(f"{vars[j]}",imgCell[val] , key=f"button_{vars[j]}"):
                             st.session_state.last_click = vars[j]
                 j+=1
