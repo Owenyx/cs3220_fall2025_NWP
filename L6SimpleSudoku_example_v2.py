@@ -5,6 +5,8 @@ from st_image_button import st_image_button
 
 import networkx as nx #Networkx for creating graph data
 from pyvis.network import Network #to create the graph as an interactive html object
+from PIL import Image
+
 
 from src.CSPclass import CSPBasic
 from src.algorithms import AC3
@@ -81,24 +83,34 @@ def main():
             # Place elements within each column of the current row
             #img = Image.open("images/top_spiderman.png")
             #st.button(st.image(img))
+            
             for col_index, col in enumerate(cols):
                 with col:
                     options=basicSudokuCSP.domains[vars[j]]
                     if len(options)==1:
                         val=options[0]
-                        print(val, imgCell[str(val)])                    
-                        if st_image_button(f"{vars[j]}",imgCell[str(val)] , key=f"button_{vars[j]}"):
-                            st.session_state.last_click = vars[j]
+                        print(val, imgCell[str(val)])
+                        #img = Image.open(imgCell[str(val)])
+                        st.button("",icon=imgCell[str(val)])
+                            #st.session_state.last_click = vars[j]
+                                         
+                        #if st_image_button(f"{vars[j]}",imgCell[str(val)] , key=f"button_{vars[j]}"):
+                            #st.session_state.last_click = vars[j]
                     else:
                         val="empty"
-                        print(val, imgCell[str(val)])     
-                        if st_image_button(f"{vars[j]}",imgCell[val] , key=f"button_{vars[j]}"):
-                            st.session_state.last_click = vars[j]
+                        print(val, imgCell[val])
+                        #img = Image.open(imgCell[val])
+                        st.button("", icon=imgCell[val])
+                            #st.session_state.last_click = vars[j]
+                        
+                        #print(val, imgCell[str(val)])     
+                        #if st_image_button(f"{vars[j]}",imgCell[val] , key=f"button_{vars[j]}"):
+                            #st.session_state.last_click = vars[j]
                 j+=1
 
         # Display the coordinates of the last clicked cell
-        if 'last_click' in st.session_state:
-            st.write(f"You clicked cell: {st.session_state.last_click}")
+        #if 'last_click' in st.session_state:
+            #st.write(f"You clicked cell: {st.session_state.last_click}")
             
         
     with tab2:
