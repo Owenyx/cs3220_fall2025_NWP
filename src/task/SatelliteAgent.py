@@ -4,10 +4,11 @@ import collections
 
 
 class SatelliteAgent(SimpleProblemSolvingAgentProgram):
-  def __init__(self, initial_state=None, dataGraph=None, goal=None, program=None):
+  def __init__(self, initial_state=None, dataGraph=None, goal=None, program=None, name=None):
     super().__init__(initial_state)
     self.dataGraph=dataGraph
     self.goal=goal
+    self.name = name
 
     self.performance=len(dataGraph.nodes())
 
@@ -19,9 +20,16 @@ class SatelliteAgent(SimpleProblemSolvingAgentProgram):
 
     self.program = program
 
+  
+  def __repr__(self):
+    if self.name:
+      return self.name
+    return self.__class__.__name__
 
-  def update_state(self, state, percept):
-    return percept
+
+  def update_state(self, state, action):
+    # Returns resulting state
+    return self.dataGraph.origin[state][action]
 
 
   def formulate_goal(self, state):
@@ -41,6 +49,11 @@ class SatelliteAgent(SimpleProblemSolvingAgentProgram):
 
   def search(self, problem):
     seq = self.program(problem)
+
+    if seq is None:
+      print('No solution could be found')
+      return None
+
     solution=self.actions_path(seq.path())
     print("Solution (a sequence of actions) from the initial state to a goal: {}".format(solution))
     return solution

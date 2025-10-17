@@ -8,6 +8,14 @@ RIGHT = 2
 DOWN = 3
 
 
+mazeActionCosts = {
+  0: 2,
+  1: 4,
+  2: 2,
+  3: 1
+}
+
+
 def makeMaze(n):
   size = (n,n)
   prob_asteroid = 0.25 # resulting array will have 20% of ones (asteroids)
@@ -83,9 +91,9 @@ def defineMazeAvailableActions(arr):
         else:
           mazeAvailableActions.setdefault((i,j),[LEFT,UP])
           if arr[i-1,j]==1:
-            mazeAvailableActions[i,j].remove(LEFT)
-          if arr[i,j-1]==1:
             mazeAvailableActions[i,j].remove(UP)
+          if arr[i,j-1]==1:
+            mazeAvailableActions[i,j].remove(LEFT)
       elif i==0:
         if arr[i,j]==1:
           mazeAvailableActions.setdefault((i,j),[])

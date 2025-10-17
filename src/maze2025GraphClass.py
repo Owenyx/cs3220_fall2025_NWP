@@ -1,11 +1,12 @@
 from src.graphClass import Graph
 
 class mazeGraph(Graph):
-  def __init__(self, graph_dict=None,locations=None):
+  def __init__(self, graph_dict=None, locations=None, action_costs=None):
     #self.g=dict()
     self.origin=graph_dict
     self.graph_dict = dict()
     #super().__init__(graph_dict)
+    self.action_costs = action_costs
     self.make_graph(graph_dict)
     self.locations=locations
 
@@ -14,7 +15,10 @@ class mazeGraph(Graph):
     for a in graph_dict.keys():
       #print(self.graph_dict[a].items())
       for (act, b) in graph_dict[a].items():
-        self.connect(a, b, 1)
+        cost = 1
+        if self.action_costs is not None:
+          cost = self.action_costs[act]
+        self.connect(a, b, cost)
 
   def connect(self, A, B, distance):
     #print(self.g)
