@@ -22,7 +22,7 @@ def A_StarSearchAgentProgram(f=None):
       node = Node(problem.initial)
  
       frontier = PriorityQueue()
-      h=node.path_cost+round(math.dist(node.state, problem.goal),3)
+      h = node.path_cost + round(math.dist(node.state, problem.goal), 3)
       frontier.put((h,node))
       reached = {problem.initial:node}
 
@@ -88,7 +88,7 @@ def BestFirstSearchAgentProgram(f=None):
     return program
   
  
-# def IDSearchAgentProgram(f=None):
+# def IDASearchAgentProgram(f=None):
 #   def program(problem):
 #     #your code here
     
