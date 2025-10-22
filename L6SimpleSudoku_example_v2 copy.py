@@ -1,12 +1,11 @@
 # Import dependencies
 import streamlit as st
 import streamlit.components.v1 as components #to display the HTML code
-#from st_image_button import st_image_button
-from st_clickable_images import clickable_images
+from st_image_button import st_image_button
 
 import networkx as nx #Networkx for creating graph data
 from pyvis.network import Network #to create the graph as an interactive html object
-#from PIL import Image
+from PIL import Image
 
 
 from src.CSPclass import CSPBasic
@@ -17,25 +16,12 @@ nodeColors={
     "filled": "yellow"
 }
 
-# List of image URLs or paths
-image_urls = [
-    "imgs/1.png",
-    "imgs/3.png",
-    "imgs/9.png",
-    "imgs/empty.png"
-    ]
-
 imgCell={
-    "1": 0,
-    "3":1,
-    "9":2,
-    "empty":3
+    "1": "imgs/1.png",
+    "3":"imgs/3.png",
+    "9":"imgs/9.png",
+    "empty":"imgs/empty.png"
 }
-
-def runAC3(csp):
-    st.session_state["clicked"]=True
-    AC3(csp)
-    return True
 
 
 
@@ -52,10 +38,9 @@ def main():
     basicSudokuCSP=CSPBasic(variables=sudokuNeighbors.keys(),neighbors=sudokuNeighbors, domains=sudokuDomains, constraints=sudokuConstraints1)
     ac3=False
     
-    if st.session_state["clicked"]== False:        
+    if not st.session_state["clicked"]:        
         if st.button("Run AC-3"):
             st.session_state["clicked"]=True
-            #st.text( st.session_state["clicked"])
             AC3(basicSudokuCSP)
             ac3=True
             
@@ -72,9 +57,7 @@ def main():
         vars=list(basicSudokuCSP.variables)
         print(vars)
         
-        
-        
-        j=0
+        '''j=0
         
         for i in range(num_rows):
             # Create a set of columns for each row
@@ -84,17 +67,52 @@ def main():
             for col_index, col in enumerate(cols):
                 with col:
                     st.write(vars[j])
-                    if ac3:
-                        options=basicSudokuCSP.curr_domains[vars[j]]
-                    else:
-                        options=basicSudokuCSP.domains[vars[j]]
+                    options=basicSudokuCSP.domains[vars[j]]
                     if len(options)==1:
                         st.text_input("filled",value=options[0], disabled =True, key=f"filled_cell_{vars[j]}", label_visibility="hidden")
                         #st.number_input("filled",value=options[0], disabled =True, key=f"filled_cell_{vars[j]}", label_visibility="hidden", step=None)
                     else:
                         st.selectbox("select",options,label_visibility="hidden", key=f"empty_cell_{vars[j]}")
-                j+=1
+                j+=1'''
         
+        j=0
+        for i in range(num_rows):
+            # Create a set of columns for each row
+            cols = st.columns(columns_per_row)
+            
+            # Place elements within each column of the current row
+            #img = Image.open("images/top_spiderman.png")
+            #st.button(st.image(img))
+            
+            for col_index, col in enumerate(cols):
+                with col:
+                    options=basicSudokuCSP.domains[vars[j]]
+                    if len(options)==1:
+                        val=options[0]
+                        print(val, imgCell[str(val)])
+                        #st_image_button(f"{vars[j]}",imgCell[str(val)] , key=f"button_{vars[j]}")
+                        #img = Image.open(imgCell[str(val)])
+                        #st.button("",icon=imgCell[str(val)])
+                            #st.session_state.last_click = vars[j]
+                                         
+                        #if st_image_button(f"{vars[j]}",imgCell[str(val)] , key=f"button_{vars[j]}"):
+                            #st.session_state.last_click = vars[j]
+                    else:
+                        val="empty"
+                        print(val, imgCell[val])
+                        #st_image_button(f"{vars[j]}",imgCell[val] , key=f"button_{vars[j]}")
+                        #img = Image.open(imgCell[val])
+                        #st.button("", icon=imgCell[val])
+                            #st.session_state.last_click = vars[j]
+                        
+                        #print(val, imgCell[str(val)])     
+                        #if st_image_button(f"{vars[j]}",imgCell[val] , key=f"button_{vars[j]}"):
+                            #st.session_state.last_click = vars[j]
+                j+=1
+
+        # Display the coordinates of the last clicked cell
+        #if 'last_click' in st.session_state:
+            #st.write(f"You clicked cell: {st.session_state.last_click}")
             
         
     with tab2:
