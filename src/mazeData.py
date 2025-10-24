@@ -1,12 +1,13 @@
 import numpy as np
 import math
 import random
+from collections import deque
 
 
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import seaborn as sns
-from matplotlib.colors import ListedColormap
+from matplotlib.colors import ListedColormap, BoundaryNorm
 
 LEFT = 0
 UP = 1
@@ -21,33 +22,165 @@ actions_dict = {
     DOWN: 'down',
 }
 
-def makeMaze(n):
-  size = (n,n)
-  proba_0 =0.2 # resulting array will have 20% of zeros
-  proba_food =0.1 # resulting array will have 10% of food pellets
-  arrMaze=np.random.choice([0, 1,2], size=size, p=[proba_0, 1-proba_0-proba_food,proba_food])
-  return arrMaze
+def makeMaze(n, ghosts=True, max_attempts=100):
+    '''
+    Legend:
+    0 → wall
+    1 → empty
+    2 → food
+    3 → ghost
+    4 → init
+    5 → goal
+    6 → init + food
+    7 → goal + food
+    '''
+    for attempt in range(max_attempts):
+        size = (n, n)
+        proba_0 = 0.2   # 20% walls (0)
+        proba_food = 0.1  # 10% food (2)
+        arrMaze = np.random.choice(
+            [0, 1, 2], 
+            size=size, 
+            p=[proba_0, 1 - proba_0 - proba_food, proba_food]
+        )
+
+        # --- Place init ---
+        valid_positions = list(zip(*np.where(arrMaze != 0)))
+        np.random.shuffle(valid_positions)
+        init = valid_positions.pop()
+        if arrMaze[init] == 2:
+            arrMaze[init] = 6
+        else:
+            arrMaze[init] = 4
+
+        # --- Place goal ---
+        goal = valid_positions.pop()
+        if arrMaze[goal] == 2:
+            arrMaze[goal] = 7
+        else:
+            arrMaze[goal] = 5
+
+        # --- Place ghosts ---
+        if ghosts:
+            ghost_positions = []
+            while len(ghost_positions) < 5 and valid_positions:
+                pos = valid_positions.pop()
+                if arrMaze[pos] in [1, 2]:
+                    arrMaze[pos] = 3
+                    ghost_positions.append(pos)
+
+        # --- Collect food positions ---
+        food_positions = list(zip(*np.where(np.isin(arrMaze, [2, 6, 7]))))
+
+        # --- BFS to check reachability ---
+        reachable = set()
+        queue = deque([init])
+        visited = set([init])
+
+        while queue:
+            x, y = queue.popleft()
+            reachable.add((x, y))
+            for dx, dy in [(-1,0),(1,0),(0,-1),(0,1)]:
+                nx, ny = x+dx, y+dy
+                if 0 <= nx < n and 0 <= ny < n and arrMaze[nx, ny] != 0:
+                    if (nx, ny) not in visited:
+                        visited.add((nx, ny))
+                        queue.append((nx, ny))
+
+        # Check if all food and goal are reachable
+        if all(pos in reachable for pos in food_positions + [goal]):
+            return arrMaze, init, goal, food_positions
+        # else: retry
+
+    raise RuntimeError("Failed to generate a fully reachable maze after {} attempts".format(max_attempts))
 
 
-def draw_maze(maze):
-    fig, ax = plt.subplots()
-    colors = sns.color_palette('coolwarm', len(np.unique(maze)))
-    #print(colors)
-    cmap = ListedColormap(colors)
-    sns.heatmap(maze, cmap=cmap, annot=False, cbar=False)
-    for i in range(maze.shape[0]):
-      for j in range(maze.shape[1]):
-        rect=patches.Rectangle((j, i), 1, 1, fill=False, edgecolor='yellow', lw=2)
-        ax.add_patch(rect)
-        #plt.gca().add_patch(patches.Rectangle((j, i), 1, 1, fill=False, edgecolor='yellow', lw=2))
-        if i==0 and j==0:
-            rect=patches.Rectangle((j, i), 1, 1, fill=True, color='pink')
-            ax.add_patch(rect)
-        if i==maze.shape[0]-1 and j==maze.shape[1]-1:
-            rect=patches.Rectangle((j, i), 1, 1, fill=True, color='green')
-            ax.add_patch(rect)
+# Global variables to hold the figure, axes, and agent patch
+_draw_maze_state = {
+    'fig': None,
+    'ax': None,
+    'agent_patch': None,
+    'heatmap': None
+}
 
-    plt.show()
+from IPython.display import display, clear_output
+
+def draw_maze(maze, agentState=(-1, -1)):
+    global _draw_maze_state
+    ai, aj = agentState
+
+    base_colors = [
+        'black',    # 0 - wall
+        'white',    # 1 - empty
+        'orange',   # 2 - food
+        'red',      # 3 - ghost
+        'green',    # 4 - init
+        'pink',     # 5 - goal
+        'olive',    # 6 - init + food
+        'violet'    # 7 - goal + food
+    ]
+    cmap = ListedColormap(base_colors)
+    bounds = np.arange(-0.5, 8.5, 1)
+    norm = BoundaryNorm(bounds, cmap.N)
+
+    if _draw_maze_state['fig'] is None:
+        # First call: create figure and axes
+        fig, ax = plt.subplots()
+        heatmap = sns.heatmap(
+            maze,
+            cmap=cmap,
+            norm=norm,
+            cbar=False,
+            square=True,
+            linewidths=0.5,
+            linecolor='black',
+            ax=ax
+        )
+        agent_patch = None
+        if ai >= 0 and aj >= 0:
+            agent_patch = patches.Rectangle(
+                (aj, ai), 1, 1,
+                fill=False,
+                edgecolor='cyan',
+                lw=2
+            )
+            ax.add_patch(agent_patch)
+        _draw_maze_state.update({
+            'fig': fig,
+            'ax': ax,
+            'agent_patch': agent_patch,
+            'heatmap': heatmap
+        })
+        plt.show()
+    else:
+        # Subsequent calls: update heatmap data
+        fig = _draw_maze_state['fig']
+        ax = _draw_maze_state['ax']
+
+        ax.clear()
+        sns.heatmap(
+            maze,
+            cmap=cmap,
+            norm=norm,
+            cbar=False,
+            square=True,
+            linewidths=0.5,
+            linecolor='black',
+            ax=ax
+        )
+        # Update agent position
+        if ai >= 0 and aj >= 0:
+            agent_patch = patches.Rectangle(
+                (aj, ai), 1, 1,
+                fill=False,
+                edgecolor='cyan',
+                lw=2
+            )
+            ax.add_patch(agent_patch)
+            _draw_maze_state['agent_patch'] = agent_patch
+
+        clear_output(wait=True)
+        display(fig)
 
 
 
@@ -116,9 +249,9 @@ def defineMazeAvailableActions(arr):
         else:
           mazeAvailableActions.setdefault((i,j),[actions_dict[0],actions_dict[1]])
           if arr[i-1,j]==0:
-            mazeAvailableActions[i,j].remove(actions_dict[0])
-          if arr[i,j-1]==0:
             mazeAvailableActions[i,j].remove(actions_dict[1])
+          if arr[i,j-1]==0:
+            mazeAvailableActions[i,j].remove(actions_dict[0])
       elif i==0:
         if arr[i,j]==0:
           mazeAvailableActions.setdefault((i,j),[])

@@ -29,30 +29,13 @@ class Environment:
 
   def step(self): # implementation should be in spec. env. for problem Solving Agents
     pass
-        #Run the environment for one time step.
-        # if not self.is_done():
-        #     actions = []
-        #     for agent in self.agents:
-        #         if agent.alive:
-                    #action=agent(self.percept(agent))
-                    #print(self.percept(agent))
-                    # action=agent.program(self.percept(agent))
-                    # print("Agent percepted {}.".format(self.percept(agent)))
-                    # print("Agent decided to do {}.".format(action))
-        #             actions.append(action)
-        #         else:
-        #             actions.append("")
-        #     for (agent, action) in zip(self.agents, actions):
-        #         self.execute_action(agent, action)
-        # else:
-        #   print("There is no one here who could work...")
 
   def run(self, steps=10):
         #Run the Environment for given number of time steps.
         for step in range(steps):
             if self.is_done():
                 return
-            print("step {0}:".format(step+1))
+            print("\nStep {0}:".format(step+1))
             self.step()
 
   def add_thing(self, thing, location=None):

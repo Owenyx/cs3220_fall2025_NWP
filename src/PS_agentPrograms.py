@@ -2,164 +2,109 @@
 from src.nodeClass import Node
 from queue import PriorityQueue
 
-import math
-
-nodeColors={
-    "start":"red",
-    "goal": "green",
-    "frontier": "orange",
-    "expanded":"pink"
-}
-
 
 def A_StarSearchAgentProgram(f=None):
-  
-    #f=math.dist
-    
+
     def program(problem):
-      print("Hi")
+        node = Node(problem.initial)
 
-      node = Node(problem.initial)
- 
-      frontier = PriorityQueue()
-      h = node.path_cost + round(math.dist(node.state, problem.goal), 3)
-      frontier.put((h,node))
-      reached = {problem.initial:node}
+        # Ensure goals are always a list
+        goals = problem.goal if isinstance(problem.goal, list) else [problem.goal]
 
-      while frontier:
-        print(frontier.queue)
-        node = frontier.get()[1]
-        print("The node {} is extracted from frontier:".format(node.state))
+        # Helper heuristic: min distance to any goal
+        def heuristic(state):
+            return min(f(state, g) for g in goals)
 
-        if problem.goal_test(node.state):
-          print("We have found our goal: {}".format (node.state))
-          return node
+        frontier = PriorityQueue()
+        h = node.path_cost + round(heuristic(node.state), 3)
+        frontier.put((h, node))
+        reached = {node.state: node}
 
-        #reached.add(node.state)
-        for child in node.expand(problem):
-            if child.state not in reached or child.path_cost<reached[child.state].path_cost:
-                #print(child)
-                print("The child node {}.".format(child))
-                h=child.path_cost+round(f(child.state, problem.goal),3)
-                frontier.put((h,child))
-                reached.update({child.state:child})
-            
-      return None
+        expanded_count = 0  # Track number of expanded nodes
+
+        while frontier:
+            print('Queue:', [tuple(map(int, x[1].state)) for x in frontier.queue])
+            node = frontier.get()[1]
+            state_int = tuple(map(int, node.state))
+            print(f"Extracted: {state_int} with f = {h}")
+            expanded_count += 1
+
+            if node.state in goals:
+                print(f"We have found our goal: {node.state}")
+                print(f"Total nodes expanded: {expanded_count}")
+                return node
+
+            for child in node.expand(problem):
+                if child.state not in reached or child.path_cost < reached[child.state].path_cost:
+                    h = child.path_cost + round(heuristic(child.state), 3)
+                    frontier.put((h, child))
+                    reached[child.state] = child
+                    print(f"Child added to frontier: {child.state}")
+        
+        print(f"Total nodes expanded: {expanded_count}")
+        return None
 
     return program
 
 
+def IDA_SearchAgentProgram(f=None):
 
-def BestFirstSearchAgentProgram(f=None):
-  #with BFS we choose a node, n, with minimum value of some evaluation function, f (n).
-    
     def program(problem):
 
-      node = Node(problem.initial)
-      #node.color=nodeColors["start"]
-      #print(node.state)
-      frontier = PriorityQueue()
-      frontier.put((1,node))
-      print(f"The {node} is being pushed to frontier ...")
-      #node.color=nodeColors["frontier"]
-      reached = {problem.initial:node}
+        class StackNode:
+            """Represents a node in the DFS stack with path cost."""
+            def __init__(self, node, g):
+                self.node = node
+                self.g = g  # path cost
 
-      while frontier:
-        node = frontier.get()[1]
-        #node.color=nodeColors["expanded"]
-        print(f"The {node} is being extracted from frontier ...")
+        root = Node(problem.initial)
+        goals = problem.goal if isinstance(problem.goal, list) else [problem.goal]
 
-        if problem.goal_test(node.state):
-          node.color=nodeColors["goal"]
-          print(f"We have found our goal:  {node}!")
-          return node
+        # Helper heuristic: min distance to any goal
+        def heuristic(state):
+            return min(f(state, g) for g in goals)
 
-        #reached.add(node.state)
-        for child in node.expand(problem):
-            if child.state not in reached or child.path_cost<reached[child.state].path_cost:
-                frontier.put((1,child))
-                print(f"The child {child} is being pushed to frontier ...")
-                #child.color=nodeColors["frontier"]
-                reached.update({child.state:child})
-            
-        #node.color=nodeColors["expanded"]
-      return None
+        threshold = heuristic(root.state)
+        expanded_count = 0
 
-    return program
-  
- 
-# def IDASearchAgentProgram(f=None):
-#   def program(problem):
-#     #your code here
-    
- 
-      
+        while True:
+            stack = [StackNode(root, root.path_cost)]
+            min_threshold = float('inf')
+            reached = {root.state: root.path_cost}
 
+            print(f"New IDA* iteration with threshold: {threshold}")
 
+            while stack:
+                current = stack.pop()
+                node = current.node
+                g = current.g
+                f_val = g + heuristic(node.state)
+                expanded_count += 1
 
+                state_int = tuple(map(int, node.state))
+                print(f"Popped: {state_int} with f = {f_val}")
 
+                if f_val > threshold:
+                    if f_val < min_threshold:
+                        min_threshold = f_val
+                    continue
 
+                if node.state in goals:
+                    print(f"We have found our goal: {node.state}")
+                    print(f"Total nodes expanded: {expanded_count}")
+                    return node
 
+                for child in reversed(node.expand(problem)):
+                    g_child = child.path_cost
+                    if child.state not in reached or g_child < reached[child.state]:
+                        stack.append(StackNode(child, g_child))
+                        reached[child.state] = g_child
+                        print(f"Child added to stack: {child.state} with g={g_child}")
 
-
-
-
-
-def BestFirstSearchAgentProgramForShow(f=None):
-  #with BFS we choose a node, n, with minimum value of some evaluation function, f (n).
-    
-    def program(problem):
-      #print(111)
-      steps = 0
-      allNodeColors = []
-      nodeColors = {k : 'white' for k in problem.graph.nodes()}
-
-      node = Node(problem.initial)
-      nodeColors[node.state] = "yellow"
-      steps += 1
-      allNodeColors.append(dict(nodeColors))
-
-      #print(node.state)
-      frontier = PriorityQueue()
-      frontier.put((1,node))
-
-      nodeColors[node.state] = "orange"
-      steps += 1
-      allNodeColors.append(dict(nodeColors))
-
-
-
-      reached = {problem.initial:node}
-
-      while frontier:
-        node = frontier.get()[1]
-        nodeColors[node.state] = "red"
-        steps += 1
-        allNodeColors.append(dict(nodeColors))
-        #print(node)
-
-        if problem.goal_test(node.state):
-          nodeColors[node.state] = "green"
-          steps += 1
-          allNodeColors.append(dict(nodeColors))
-          return (node,steps,allNodeColors)
-          
-
-        #reached.add(node.state)
-        for child in node.expand(problem):
-            if child.state not in reached or child.path_cost<reached[child.state].path_cost:
-                frontier.put((1,child))
-                nodeColors[child.state] = "orange"
-                steps += 1
-                allNodeColors.append(dict(nodeColors))
-
-                reached.update({child.state:child})
-
-        # modify the color of explored nodes to blue
-        nodeColors[node.state] = "blue"
-        steps += 1
-        allNodeColors.append(dict(nodeColors))
-            
-      return None
+            if min_threshold == float('inf'):
+                print(f"No solution found. Total nodes expanded: {expanded_count}")
+                return None  # No solution
+            threshold = min_threshold  # Increase threshold for next iteration
+            print(f"Threshold updated to: {threshold}")
 
     return program
