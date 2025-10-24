@@ -22,7 +22,7 @@ def A_StarSearchAgentProgram(f=None):
 
         expanded_count = 0  # Track number of expanded nodes
 
-        while frontier:
+        while not frontier.empty():
             print('Queue:', [tuple(map(int, x[1].state)) for x in frontier.queue])
             node = frontier.get()[1]
             state_int = tuple(map(int, node.state))
