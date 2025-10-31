@@ -40,7 +40,7 @@ def main():
 
     with tab4: # Post-AC3 grid
         st.success("AC-3 applied")
-        buildGrid(SudokuCSP, True)
+        buildGraph(SudokuCSP, True)
         
         
 def getSudokuData():
@@ -66,7 +66,7 @@ def getSudokuData():
     # Convert it all to strings for pyvis :/
     sudokuNeighbors = {}
     for key in neighbors:
-        sudokuNeighbors[str(key)] = map(str, neighbors[key])
+        sudokuNeighbors[str(key)] = list(map(str, neighbors[key]))
 
     sudokuDomains = {}
     for key in domains:
