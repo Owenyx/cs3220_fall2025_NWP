@@ -100,7 +100,7 @@ def buildGrid(SudokuCSP, ac3):
                 if ac3:
                     st.write(str(list(SudokuCSP.curr_domains[vars[j]])))
                 else:
-                    st.write(str(list(SudokuCSP.domains[vars[j]])))
+                    st.write(','.join((list(SudokuCSP.domains[vars[j]]))))
             j+=1
 
         
@@ -140,14 +140,10 @@ def buildGraph(SudokuCSP, ac3=False):
     x_coords = {}
     y_coords = {}
 
+
     for node in nodes:
-        if node[0].lower()=="a":
-            y_coords.setdefault(node,50)            
-        elif node[0].lower()=="b":
-            y_coords.setdefault(node,100)
-        elif node[0].lower()=="c":
-            y_coords.setdefault(node,150)
-        x_coords.setdefault(node,int(node[1])*50)
+        x_coords[node] = node[1] * 50
+        y_coords[node] = node[4] * 50
 
            
     # initialize graph
