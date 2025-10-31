@@ -154,7 +154,7 @@ def buildGraph(SudokuCSP, ac3=False):
     
     # add the nodes
     for node in nodes:
-        g.add_node(node, size=10, title=nodeTitlesDict[node], label=nodeLabelsDict[node], x_coord=x_coords[node],y_coord=y_coords[node])
+        g.add_node(node, size=10, title=nodeTitlesDict[node], label=nodeLabelsDict[node], x=x_coords[node],y=y_coords[node])
 
     # Add edges
     for nodeFrom in SudokuCSP.neighbors.keys():
