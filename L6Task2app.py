@@ -37,7 +37,7 @@ def main():
         
     with tab3: # Post-AC3
         st.success("AC-3 applied")
-        buildGraph(prunedSudokuCSP, True)
+        buildGrid(prunedSudokuCSP, True)
 
     with tab4: # Post-AC3 grid
         st.success("AC-3 applied")
@@ -95,12 +95,9 @@ def buildGrid(SudokuCSP, ac3):
         # Place elements within each column of the current row
         for col_index, col in enumerate(cols):
             with col:
-                st.write(vars[j])
-                if ac3:
-                    options=SudokuCSP.curr_domains[vars[j]]
-                else:
-                    options=SudokuCSP.domains[vars[j]]
-                st.text('test')
+                with st.container(border=True):
+                    st.write(vars[j])
+                    st.write(SudokuCSP.curr_domains[vars[j]])
             j+=1
 
         
