@@ -33,26 +33,34 @@ def main():
         
         
 def getSudokuData():
-    sudokuNeighbors = {}
+    neighbors = {}
 
     for i in range(1, 10):
         for j in range(1, 10):
             key = (i, j)
-            sudokuNeighbors[key] = set(sameCol(key) + sameRow(key) + sameHouse(key) + asteriskNeighbours(key))
+            neighbors[key] = set(sameCol(key) + sameRow(key) + sameHouse(key) + asteriskNeighbours(key))
 
-    sudokuDomains = {}
+    domains = {}
 
     for i in range(1, 10):
         for j in range(1, 10):
             key = (i, j)
-            sudokuDomains[key] = allVals
+            domains[key] = allVals
 
     # Set Pre-filled values
     for key in given:
-        sudokuDomains[key] = given[key]
+        domains[key] = given[key]
 
-    sudokuDomains
-    
+
+    # Convert it all to strings for pyvis :/
+    sudokuNeighbors = {}
+    for key in neighbors:
+        sudokuNeighbors[str(key)] = map(str, neighbors[key])
+
+    sudokuDomains = {}
+    for key in domains:
+        sudokuDomains[str(key)] = domains[key] # domain values are numbers
+
     sudokuConstraints = different_values_constraint
     return sudokuNeighbors,sudokuDomains,sudokuConstraints
 
