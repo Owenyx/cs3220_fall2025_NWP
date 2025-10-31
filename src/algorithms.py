@@ -10,7 +10,8 @@ def AC3(csp, display=True):
   for Xi in csp.variables:
     for Xk in csp.neighbors[Xi]:
       queue.put((Xi, Xk))
-      if display(Xi, Xk), end=" ")
+      if display:
+        print((Xi, Xk), end=" ")
     if display:
       print()
    
