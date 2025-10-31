@@ -22,26 +22,25 @@ def main():
     tab1, tab2, tab3, tab4 = st.tabs(["Initial Grid", "Initial Graph of constraints", "Pruned Grid", 'Pruned Graph of constraints'])
     
     sudokuNeighbors,sudokuDomains,sudokuConstraints=getSudokuData()        
-    originalSudokuCSP=CSPBasic(variables=sudokuNeighbors.keys(),neighbors=sudokuNeighbors, domains=sudokuDomains, constraints=sudokuConstraints)
+    SudokuCSP=CSPBasic(variables=sudokuNeighbors.keys(),neighbors=sudokuNeighbors, domains=sudokuDomains, constraints=sudokuConstraints)
 
-    prunedSudokuCSP=CSPBasic(variables=sudokuNeighbors.keys(),neighbors=sudokuNeighbors, domains=sudokuDomains, constraints=sudokuConstraints)
-    AC3(prunedSudokuCSP, display=False)
+    AC3(SudokuCSP, display=False)
 
 
     with tab1: # Pre-AC3 grid
-        buildGrid(originalSudokuCSP, False)
+        buildGrid(SudokuCSP, False)
 
     with tab2: # Pre-AC3 Constraint graph
         st.header("CSP: Sudoku Scheduling Problem - Pre-AC3")
-        buildGraph(originalSudokuCSP, False)
+        buildGraph(SudokuCSP, False)
         
     with tab3: # Post-AC3
         st.success("AC-3 applied")
-        buildGrid(prunedSudokuCSP, True)
+        buildGrid(SudokuCSP, True)
 
     with tab4: # Post-AC3 grid
         st.success("AC-3 applied")
-        buildGrid(prunedSudokuCSP, True)
+        buildGrid(SudokuCSP, True)
         
         
 def getSudokuData():
@@ -97,7 +96,10 @@ def buildGrid(SudokuCSP, ac3):
             with col:
                 with st.container(border=True):
                     st.write(vars[j])
-                    st.write(SudokuCSP.curr_domains[vars[j]])
+                    if ac3:
+                        st.write(str(list(SudokuCSP.curr_domains[vars[j]])))
+                    else:
+                        st.write(str(list(SudokuCSP.domains[vars[j]])))
             j+=1
 
         
