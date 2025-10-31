@@ -11,25 +11,37 @@ from src.utils import different_values_constraint
 from src.task2utils import sameCol, sameRow, sameHouse, asteriskNeighbours, given, allVals
 
 
+nodeColors={
+    "empty":"white",
+    "filled": "yellow"
+}
+
+
+
 def main():
-    tab1, tab2 = st.tabs(["Initial Domains", "Graph of constraints"])
+    tab1, tab2, tab3, tab4 = st.tabs(["Initial Grid", "Initial Graph of constraints", "Pruned Grid", 'Pruned Graph of constraints'])
     
     sudokuNeighbors,sudokuDomains,sudokuConstraints=getSudokuData()        
-    basicSudokuCSP=CSPBasic(variables=sudokuNeighbors.keys(),neighbors=sudokuNeighbors, domains=sudokuDomains, constraints=sudokuConstraints)
+    originalSudokuCSP=CSPBasic(variables=sudokuNeighbors.keys(),neighbors=sudokuNeighbors, domains=sudokuDomains, constraints=sudokuConstraints)
 
     prunedSudokuCSP=CSPBasic(variables=sudokuNeighbors.keys(),neighbors=sudokuNeighbors, domains=sudokuDomains, constraints=sudokuConstraints)
     AC3(prunedSudokuCSP)
-            
-    
-    with tab1: # Pre-AC3
+
+
+    with tab1: # Pre-AC3 grid
+        buildGrid(originalSudokuCSP, False)
+
+    with tab2: # Pre-AC3 Constraint graph
         st.header("CSP: Sudoku Scheduling Problem - Pre-AC3")
+        buildGraph(originalSudokuCSP, False)
         
-        buildGraph(basicSudokuCSP, False)
-        
-    with tab2: # Post-AC3
-        
-          st.success("AC-3 applied. Check new domains")
-          buildGraph(prunedSudokuCSP, True)
+    with tab3: # Post-AC3
+        st.success("AC-3 applied")
+        buildGraph(prunedSudokuCSP, True)
+
+    with tab4: # Post-AC3 grid
+        st.success("AC-3 applied")
+        buildGrid(prunedSudokuCSP, True)
         
         
 def getSudokuData():
@@ -64,6 +76,33 @@ def getSudokuData():
     sudokuConstraints = different_values_constraint
     return sudokuNeighbors,sudokuDomains,sudokuConstraints
 
+
+def buildGrid(SudokuCSP, ac3):
+    # Define the number of rows you want
+    size = 9
+    # Define the number of columns per row
+    vars=list(SudokuCSP.variables)
+    print(vars)
+    
+    
+    
+    j=0
+    
+    for i in range(size):
+        # Create a set of columns for each row
+        cols = st.columns(size)
+        
+        # Place elements within each column of the current row
+        for col_index, col in enumerate(cols):
+            with col:
+                st.write(vars[j])
+                if ac3:
+                    options=SudokuCSP.curr_domains[vars[j]]
+                else:
+                    options=SudokuCSP.domains[vars[j]]
+                st.text(', '.join(options))
+            j+=1
+
         
 def buildGraph(SudokuCSP, ac3=False):
     netSudoku= Network(
@@ -73,19 +112,29 @@ def buildGraph(SudokuCSP, ac3=False):
                 width = "100%"
                 ) 
     
+    nodeColorsDict={}
     nodeTitlesDict={}
     nodeLabelsDict={}
     nodes=list(SudokuCSP.variables)
 
     for node in nodes:
-        if ac3:
-            string_list = [str(i) for i in SudokuCSP.curr_domains[node]]
-            
+        if len(SudokuCSP.domains[node])==1:
+            nodeColorsDict.setdefault(node,nodeColors["filled"])
+            if ac3:
+                nodeTitlesDict.setdefault(node,str(SudokuCSP.curr_domains[node][0]))
+            else:
+                nodeTitlesDict.setdefault(node,str(SudokuCSP.domains[node][0]))
+            nodeLabelsDict.setdefault(node,str(SudokuCSP.domains[node][0]))           
         else:
-            string_list = [str(i) for i in SudokuCSP.domains[node]]
-        nodeTitlesDict.setdefault(node, ",".join(string_list) )
-            
-        nodeLabelsDict.setdefault(node,"")      
+            nodeColorsDict.setdefault(node,nodeColors["empty"])
+            if ac3:
+                string_list = [str(i) for i in SudokuCSP.curr_domains[node]]
+               
+            else:
+                string_list = [str(i) for i in SudokuCSP.domains[node]]
+            nodeTitlesDict.setdefault(node, ",".join(string_list) )
+                
+            nodeLabelsDict.setdefault(node,"")           
            
     # initialize graph
     g = nx.Graph()
@@ -96,10 +145,10 @@ def buildGraph(SudokuCSP, ac3=False):
 
     # Add edges
     for nodeFrom in SudokuCSP.neighbors.keys():
-        for nodeTo in SudokuCSP.neighbors[nodeFrom]:        
-            if nodeFrom[0]==nodeTo[0]: # row const-s
+        for nodeTo in SudokuCSP.neighbors[nodeFrom]:  
+            if nodeFrom[1]==nodeTo[1]: # row const-s
                 g.add_edge(nodeFrom,nodeTo, color="red")
-            elif nodeFrom[1]==nodeTo[1]: # col const-s
+            elif nodeFrom[4]==nodeTo[4]: # col const-s
                 g.add_edge(nodeFrom,nodeTo, color="blue")
             else:
                 g.add_edge(nodeFrom,nodeTo, color="green") # diag con-s

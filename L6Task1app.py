@@ -14,7 +14,7 @@ def main():
     tab1, tab2 = st.tabs(["Initial Domains", "Graph of constraints"])
     
     examNeighbors,examDomains,examConstraints=getExamData()        
-    basicExamCSP=CSPBasic(variables=examNeighbors.keys(),neighbors=examNeighbors, domains=examDomains, constraints=examConstraints)
+    OriginalExamCSP=CSPBasic(variables=examNeighbors.keys(),neighbors=examNeighbors, domains=examDomains, constraints=examConstraints)
 
     prunedExamCSP=CSPBasic(variables=examNeighbors.keys(),neighbors=examNeighbors, domains=examDomains, constraints=examConstraints)
     AC3(prunedExamCSP)
@@ -23,7 +23,7 @@ def main():
     with tab1: # Pre-AC3
         st.header("CSP: Exam Scheduling Problem - Pre-AC3")
         
-        buildGraph(basicExamCSP, False)
+        buildGraph(OriginalExamCSP, False)
         
     with tab2: # Post-AC3
         
