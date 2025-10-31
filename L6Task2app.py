@@ -32,7 +32,6 @@ def main():
         buildGrid(SudokuCSP, False)
 
     with tab2: # Pre-AC3 Constraint graph
-        st.header("CSP: Sudoku Scheduling Problem - Pre-AC3")
         buildGraph(SudokuCSP, False)
         
     with tab3: # Post-AC3
