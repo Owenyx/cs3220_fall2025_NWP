@@ -31,6 +31,8 @@ given = {
 
 allVals = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
+asteriskCells = [(2, 5), (3, 3), (3, 7), (5, 2), (5, 5), (5, 8), (7, 3), (7, 7), (8, 5)]
+
 
 def sameRow(key):
     row, col = key
@@ -53,7 +55,6 @@ def sameHouse(key):
     return neighbors
     
 def asteriskNeighbours(key):
-   asteriskCells = [(2, 5), (3, 3), (3, 7), (5, 2), (5, 5), (5, 8), (7, 3), (7, 7), (8, 5)]
    if key in asteriskCells:
       return [cell for cell in asteriskCells if cell != key]
    else:

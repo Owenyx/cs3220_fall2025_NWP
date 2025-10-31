@@ -8,7 +8,7 @@ from pyvis.network import Network #to create the graph as an interactive html ob
 from src.CSPclass import CSPBasic
 from src.algorithms import AC3
 from src.utils import different_values_constraint
-from src.task2utils import sameCol, sameRow, sameHouse, asteriskNeighbours, given, allVals
+from src.task2utils import sameCol, sameRow, sameHouse, asteriskNeighbours, given, allVals, asteriskCells
 import ast
 
 
@@ -159,7 +159,9 @@ def buildGraph(SudokuCSP, ac3=False):
     # Add edges
     for nodeFrom in SudokuCSP.neighbors.keys():
         for nodeTo in SudokuCSP.neighbors[nodeFrom]:  
-            if nodeFrom[1]==nodeTo[1]: # row const-s
+            if ast.literal_eval(nodeFrom) in asteriskCells and ast.literal_eval(nodeTo) in asteriskCells:
+                g.add_edge(nodeFrom,nodeTo, color="violet")
+            elif nodeFrom[1]==nodeTo[1]: # row const-s
                 g.add_edge(nodeFrom,nodeTo, color="red")
             elif nodeFrom[4]==nodeTo[4]: # col const-s
                 g.add_edge(nodeFrom,nodeTo, color="blue")
