@@ -166,6 +166,8 @@ def buildGraph(SudokuCSP, ac3=False):
 
     # generate the graph
     netSudoku.from_nx(g)
+
+    netSudoku.toggle_physics(False)
     
     netSudoku.save_graph(f'L6_Task2.html')
     HtmlFile = open(f'L6_Task2.html', 'r', encoding='utf-8')
