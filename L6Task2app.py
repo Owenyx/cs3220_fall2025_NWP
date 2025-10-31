@@ -6,7 +6,7 @@ import networkx as nx #Networkx for creating graph data
 from pyvis.network import Network #to create the graph as an interactive html object
 
 from src.CSPclass import CSPBasic
-from src.algorithms import AC3_noPrint
+from src.algorithms import AC3
 from src.utils import different_values_constraint
 from src.task2utils import sameCol, sameRow, sameHouse, asteriskNeighbours, given, allVals
 
@@ -25,7 +25,7 @@ def main():
     originalSudokuCSP=CSPBasic(variables=sudokuNeighbors.keys(),neighbors=sudokuNeighbors, domains=sudokuDomains, constraints=sudokuConstraints)
 
     prunedSudokuCSP=CSPBasic(variables=sudokuNeighbors.keys(),neighbors=sudokuNeighbors, domains=sudokuDomains, constraints=sudokuConstraints)
-    AC3(prunedSudokuCSP)
+    AC3(prunedSudokuCSP, display=False)
 
 
     with tab1: # Pre-AC3 grid
