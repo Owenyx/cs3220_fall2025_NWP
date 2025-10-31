@@ -85,6 +85,7 @@ def back_revise(csp, Xi, Xj, checks=0):
 
 # CSP Backtracking Search Section
 # Variable ordering
+# O: This is a strategy of picking variables for assignment - more optimized solutions would use some heuristic for choosing
 def first_unassigned_variable(assignment, csp):
     """The default variable order."""
     return first([var for var in csp.variables if var not in assignment])
@@ -105,13 +106,14 @@ def backtracking_search(csp, select_unassigned_variable=first_unassigned_variabl
         var = select_unassigned_variable(assignment, csp)
         for value in order_domain_values(var, assignment, csp):
             if csp.nconflicts(var, value, assignment)==0:
+                # If no conflicts, then the assignment is valid and we can do it
                 csp.assign(var, value, assignment)
                 result = backtrack(assignment)
                 if result is not None:
                   return result
                 
             csp.unassign(var, assignment)
-        return None
+        return None # Domain of selected variables is empty, no solution
 
     result = backtrack({})
     return result

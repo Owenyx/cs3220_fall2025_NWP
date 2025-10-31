@@ -27,11 +27,13 @@ class CSPBasic(Problem):
 
 
 class CSP(CSPBasic):
+  # Assignment are tracked so we can see when all variables are assigned and track our state
   def assign(self, var, val, assignment):
         """Add {var: val} to assignment; Discard the old value if any."""
         assignment[var] = val
         self.nassigns += 1
 
+  # Needed for backtracking to undo previous assignments
   def unassign(self, var, assignment):
         """Remove {var: val} from assignment.
         DO NOT call this if you are changing a variable to a new value;
