@@ -2,7 +2,6 @@
 import streamlit as st
 import streamlit.components.v1 as components #to display the HTML code
 #from st_image_button import st_image_button
-from st_clickable_images import clickable_images
 
 import networkx as nx #Networkx for creating graph data
 from pyvis.network import Network #to create the graph as an interactive html object
