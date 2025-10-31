@@ -9,6 +9,7 @@ from src.CSPclass import CSPBasic
 from src.algorithms import AC3
 from src.utils import different_values_constraint
 from src.task2utils import sameCol, sameRow, sameHouse, asteriskNeighbours, given, allVals
+import ast
 
 
 nodeColors={
@@ -142,8 +143,9 @@ def buildGraph(SudokuCSP, ac3=False):
 
 
     for node in nodes:
-        x_coords[node] = int(node[1]) * 50
-        y_coords[node] = int(node[4]) * 50
+        row, col = ast.literal_eval(node)
+        x_coords[node] = row * 50
+        y_coords[node] = col * 50
 
            
     # initialize graph
