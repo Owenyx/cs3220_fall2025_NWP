@@ -69,21 +69,14 @@ def buildGraph(ExamCSP, ac3=False):
     nodes=list(ExamCSP.variables)
 
     for node in nodes:
-        if len(ExamCSP.domains[node])==1:
-            if ac3:
-                nodeTitlesDict.setdefault(node,str(ExamCSP.curr_domains[node][0]))
-            else:
-                nodeTitlesDict.setdefault(node,str(ExamCSP.domains[node][0]))
-            nodeLabelsDict.setdefault(node,str(ExamCSP.domains[node][0]))           
+        if ac3:
+            string_list = [str(i) for i in ExamCSP.curr_domains[node]]
+            
         else:
-            if ac3:
-                string_list = [str(i) for i in ExamCSP.curr_domains[node]]
-               
-            else:
-                string_list = [str(i) for i in ExamCSP.domains[node]]
-            nodeTitlesDict.setdefault(node, ",".join(string_list) )
-                
-            nodeLabelsDict.setdefault(node,"")      
+            string_list = [str(i) for i in ExamCSP.domains[node]]
+        nodeTitlesDict.setdefault(node, ",".join(string_list) )
+            
+        nodeLabelsDict.setdefault(node,"")      
            
     # initialize graph
     g = nx.Graph()
@@ -92,11 +85,15 @@ def buildGraph(ExamCSP, ac3=False):
     for node in nodes:
         g.add_node(node, size=10, title=nodeTitlesDict[node], label=nodeLabelsDict[node])
 
+    for nodeFrom in ExamCSP.neighbors.keys():
+        for nodeTo in ExamCSP.neighbors[nodeFrom]:        
+            g.add_edge(nodeFrom,nodeTo, color="green")
+
     # generate the graph
     netExam.from_nx(g)
     
-    netExam.save_graph('L6_SimpleExam.html')
-    HtmlFile = open(f'L6_SimpleExam.html', 'r', encoding='utf-8')
+    netExam.save_graph(f'L6_Task1.html')
+    HtmlFile = open(f'L6_Task1.html', 'r', encoding='utf-8')
     components.html(HtmlFile.read(), height = 1200,width=1000)
     
     
