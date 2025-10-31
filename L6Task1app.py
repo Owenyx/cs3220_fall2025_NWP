@@ -85,6 +85,7 @@ def buildGraph(ExamCSP, ac3=False):
     for node in nodes:
         g.add_node(node, size=10, title=nodeTitlesDict[node], label=nodeLabelsDict[node])
 
+    # Add edges
     for nodeFrom in ExamCSP.neighbors.keys():
         for nodeTo in ExamCSP.neighbors[nodeFrom]:        
             g.add_edge(nodeFrom,nodeTo, color="green")

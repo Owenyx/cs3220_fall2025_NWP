@@ -53,4 +53,3 @@ def first(iterable, default=None):
     """Return the first element of an iterable; or default."""
     return next(iter(iterable), default)
 
-
