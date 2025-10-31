@@ -100,7 +100,7 @@ def buildGrid(SudokuCSP, ac3):
                     options=SudokuCSP.curr_domains[vars[j]]
                 else:
                     options=SudokuCSP.domains[vars[j]]
-                st.text(', '.join(options))
+                st.text('test')
             j+=1
 
         
