@@ -94,7 +94,7 @@ def buildGrid(SudokuCSP, ac3):
         # Place elements within each column of the current row
         for col_index, col in enumerate(cols):
             with col:
-                with st.container(border=True):
+                
                     st.write(vars[j])
                     if ac3:
                         st.write(str(list(SudokuCSP.curr_domains[vars[j]])))
@@ -133,14 +133,29 @@ def buildGraph(SudokuCSP, ac3=False):
                 string_list = [str(i) for i in SudokuCSP.domains[node]]
             nodeTitlesDict.setdefault(node, ",".join(string_list) )
                 
-            nodeLabelsDict.setdefault(node,"")           
+            nodeLabelsDict.setdefault(node,"")      
+
+
+    x_coords = {}
+    y_coords = {}
+
+    for node in nodes:
+        if node[0].lower()=="a":
+            y_coords.setdefault(node,50)            
+        elif node[0].lower()=="b":
+            y_coords.setdefault(node,100)
+        elif node[0].lower()=="c":
+            y_coords.setdefault(node,150)
+        x_coords.setdefault(node,int(node[1])*50)
+
            
     # initialize graph
     g = nx.Graph()
     
+    
     # add the nodes
     for node in nodes:
-        g.add_node(node, size=10, title=nodeTitlesDict[node], label=nodeLabelsDict[node])
+        g.add_node(node, size=10, title=nodeTitlesDict[node], label=nodeLabelsDict[node], x_coord=x_coords[node],y_coord=y_coords[node])
 
     # Add edges
     for nodeFrom in SudokuCSP.neighbors.keys():
