@@ -90,16 +90,17 @@ def buildGrid(SudokuCSP, ac3):
     for i in range(size):
         # Create a set of columns for each row
         cols = st.columns(size)
+
+        st.divider()
         
         # Place elements within each column of the current row
         for col_index, col in enumerate(cols):
             with col:
-                
-                    st.write(vars[j])
-                    if ac3:
-                        st.write(str(list(SudokuCSP.curr_domains[vars[j]])))
-                    else:
-                        st.write(str(list(SudokuCSP.domains[vars[j]])))
+                st.write(vars[j])
+                if ac3:
+                    st.write(str(list(SudokuCSP.curr_domains[vars[j]])))
+                else:
+                    st.write(str(list(SudokuCSP.domains[vars[j]])))
             j+=1
 
         
