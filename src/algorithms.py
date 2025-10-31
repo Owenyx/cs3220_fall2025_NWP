@@ -2,29 +2,32 @@ from queue import Queue
 
 from src.utils import first
 
-def AC3(csp):
+def AC3(csp, display=True):
   queue = Queue()
   
-  print(f"Initial queue:")
+  if display:
+    print(f"Initial queue:")
   for Xi in csp.variables:
     for Xk in csp.neighbors[Xi]:
       queue.put((Xi, Xk))
-      print((Xi, Xk), end=" ")
-    print()
+      if display(Xi, Xk), end=" ")
+    if display:
+      print()
    
   csp.support_pruning()
   checks = 0
   while list(queue.queue):
     (Xi, Xj) = queue.get()
     #print(f'Arc {(Xi, Xj)} is cheking')
-    revised, checks = revise(csp, Xi, Xj, checks)
+    revised, checks = revise(csp, Xi, Xj, checks, display)
     if revised:
       if not csp.curr_domains[Xi]:
         return False, checks  # CSP is inconsistent
       for Xk in csp.neighbors[Xi]:
         if Xk != Xj:
           queue.put((Xk, Xi))
-    print(f"Queue: {list(queue.queue)}")
+    if display:
+      print(f"Queue: {list(queue.queue)}")
 
     '''print(f'Arc {(Xj, Xi)} is cheking')
     revised, checks1 = back_revise(csp, Xi, Xj, checks)
@@ -39,10 +42,11 @@ def AC3(csp):
   return True, checks  # CSP is satisfiable
 
 
-def revise(csp, Xi, Xj, checks=0):
+def revise(csp, Xi, Xj, checks=0, display=True):
     """Return true if we remove a value."""
     revised = False
-    print(f'Arc {(Xi, Xj)} is cheking')
+    if display:
+      print(f'Arc {(Xi, Xj)} is cheking')
     for x in csp.curr_domains[Xi][:]:
         # If Xi=x conflicts with Xj=y for every possible y, eliminate Xi=x
         # if all(not csp.constraints(Xi, x, Xj, y) for y in csp.curr_domains[Xj]):
@@ -56,7 +60,8 @@ def revise(csp, Xi, Xj, checks=0):
                 break
         if conflict:
             csp.prune(Xi, x)
-            print(f'The val {x} was deleted from {Xi} domain')
+            if display:
+              print(f'The val {x} was deleted from {Xi} domain')
             revised = True
     return revised, checks
 
