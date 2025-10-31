@@ -100,7 +100,7 @@ def buildGrid(SudokuCSP, ac3):
                 if ac3:
                     st.write(str(list(SudokuCSP.curr_domains[vars[j]])))
                 else:
-                    st.write(','.join((list(SudokuCSP.domains[vars[j]]))))
+                    st.write(str(list(SudokuCSP.domains[vars[j]])))
             j+=1
 
         
