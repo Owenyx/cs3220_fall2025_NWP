@@ -11,7 +11,7 @@ from src.utils import different_values_constraint
 
 
 def main():
-    tab1, tab2 = st.tabs(["Initial Domains", "Graph of constraints"])
+    tab1, tab2 = st.tabs(["Initial Domains", "Pruned Domains"])
     
     examNeighbors,examDomains,examConstraints=getExamData()        
     OriginalExamCSP=CSPBasic(variables=examNeighbors.keys(),neighbors=examNeighbors, domains=examDomains, constraints=examConstraints)
