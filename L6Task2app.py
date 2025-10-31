@@ -142,8 +142,8 @@ def buildGraph(SudokuCSP, ac3=False):
 
 
     for node in nodes:
-        x_coords[node] = node[1] * 50
-        y_coords[node] = node[4] * 50
+        x_coords[node] = int(node[1]) * 50
+        y_coords[node] = int(node[4]) * 50
 
            
     # initialize graph
