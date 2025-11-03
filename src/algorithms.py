@@ -1,6 +1,30 @@
 from queue import Queue
+import random
 
 from src.utils import first
+from src.utils import min_conflicts_value1
+
+
+# Min-conflicts Hill Climbing search for CSPs
+def min_conflicts1(csp, max_steps=100000):
+    """Solve a CSP by stochastic Hill Climbing on the number of conflicts."""
+    # Generate a complete assignment for all variables (probably with conflicts)
+    csp.current = current = {}
+    for var in csp.variables:
+        val = min_conflicts_value1(csp, var, current)
+        csp.assign(var, val, current)
+    print(f"Start with an arbitrary assignment: {csp.current}")
+    # Now repeatedly choose a random conflicted variable and change it
+    for i in range(max_steps):
+        conflicted = csp.conflicted_vars(current)
+        if not conflicted:
+            return current
+        var = random.choice(conflicted)
+        print(f"The var. {var} was selected randomly")
+        val = min_conflicts_value1(csp, var, current)
+        csp.assign(var, val, current)
+    return None
+
 
 def AC3(csp):
   queue = Queue()
