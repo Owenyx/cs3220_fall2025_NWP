@@ -61,14 +61,16 @@ def first(iterable, default=None):
 def min_conflicts_value1(csp, var, current):
     """Return the value that will give var the least number of conflicts.
     If there is a tie, choose at random."""
-    print(f"var {var} domain:")
+    print(f"var {var} (val, nConflicts):")
     varConflicts=[(val,csp.nconflicts(var, val, current)) for val in csp.domains[var]]
     print(f"{varConflicts}")
     return argmin_random_tie(csp.domains[var], key=lambda val: csp.nconflicts(var, val, current))
 
 def argmin_random_tie(seq, key):
     """Return a minimum element of seq; break ties at random."""
-    return min(shuffled(seq), key=key)
+    minElem=min(shuffled(seq), key=key)
+    print(f"The value {minElem} -> selected")
+    return minElem
 
 def shuffled(iterable):
     """Randomly shuffle a copy of iterable."""

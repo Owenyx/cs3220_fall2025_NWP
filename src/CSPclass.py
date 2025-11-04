@@ -55,4 +55,11 @@ class CSP(CSPBasic):
   def choices(self, var):
         """Return all values for var that aren't currently ruled out."""
         return (self.curr_domains or self.domains)[var]
+  
+  #for local search
+  # This is for min_conflicts search
+  def conflicted_vars(self, current):
+        """Return a list of variables in current assignment that are in conflict"""
+        return [var for var in self.variables
+                if self.nconflicts(var, current[var], current) > 0]
 

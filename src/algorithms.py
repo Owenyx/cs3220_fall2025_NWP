@@ -16,6 +16,7 @@ def min_conflicts1(csp, max_steps=100000):
     print(f"Start with an arbitrary assignment: {csp.current}")
     # Now repeatedly choose a random conflicted variable and change it
     for i in range(max_steps):
+        print(f"Step # {i}")
         conflicted = csp.conflicted_vars(current)
         if not conflicted:
             return current
@@ -23,6 +24,7 @@ def min_conflicts1(csp, max_steps=100000):
         print(f"The var. {var} was selected randomly")
         val = min_conflicts_value1(csp, var, current)
         csp.assign(var, val, current)
+        print(f"Step # {i} assignment: {csp.current}")
     return None
 
 
