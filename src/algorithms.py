@@ -2,7 +2,9 @@ from queue import Queue
 import random
 
 from src.utils import first
-from src.utils import min_conflicts_value1
+from src.utils import min_conflicts_value1, argmax_random_tie
+
+from src.nodeClass import Node
 
 
 # Min-conflicts Hill Climbing search for CSPs
@@ -26,6 +28,31 @@ def min_conflicts1(csp, max_steps=100000):
         csp.assign(var, val, current)
         print(f"Step # {i} assignment: {csp.current}")
     return None
+
+
+def hill_climbing(problem):
+    """
+    From the initial node, keep choosing the neighbor with highest value,
+    stopping when no neighbor is better.
+    """
+    
+    problem.current={}
+    for var in problem.variables:
+        val = min_conflicts_value1(problem, var, problem.current)
+        problem.assign(var, val, problem.current)
+    print(f"Start with an arbitrary assignment: {problem.current}")
+    
+    current = Node(problem.current)
+    print(1)
+    while True:
+        neighbors = current.expand(problem)
+        if not neighbors:
+            break
+        neighbor = argmax_random_tie(neighbors, key=lambda node: problem.value(node.state))
+        if problem.value(neighbor.state) <= problem.value(current.state):
+            break
+        current = neighbor
+    return current.state
 
 
 def AC3(csp):
