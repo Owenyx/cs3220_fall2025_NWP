@@ -1,3 +1,5 @@
+import random
+
 from src.problemClass import Problem
 from src.utils import count
 
@@ -64,25 +66,3 @@ class CSP(CSPBasic):
                 if self.nconflicts(var, current[var], current) > 0]
         
         
-
-class CSPAdv(CSP):
-      # for original Hill Climbing 
-      def value (self,state):
-            """Value of a state (the current assignment) is the N of conflicts"""
-            val=len(self.conflicted_vars)
-            print(f"Value of the state {state}: {val}")
-            return val
-      
-      
-      def actions(self, A):
-            return list(self.neighbors.get(A))
-      
-      def result(self, state, action):
-            #A transition model
-            if action in list(self.neighbors.get(state)):
-                  return action
-            
-
-
-
-

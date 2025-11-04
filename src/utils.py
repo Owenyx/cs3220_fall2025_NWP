@@ -78,9 +78,4 @@ def shuffled(iterable):
     random.shuffle(items)
     return items
 
-identity = lambda x: x
-
-def argmax_random_tie(seq, key=identity):
-    """Return an element with highest fn(seq[i]) score; break ties at random."""
-    return max(shuffled(seq), key=key)
 
