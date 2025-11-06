@@ -25,14 +25,15 @@ class FiveMisery(Game):
     def result(self, state, act):
         """Place a marker for current player on square."""
         player = state.to_move
-        print(f"The current Player is {player}")
-        self.counter+=act
+        print(f"The current Player is {player}, game counter :{}")
+        #self.counter+=act
         if player == 'X':
             to_move='O'
         else:
             to_move='X'
         print(f"The next Player is {to_move}")
-        board=Board5Misery(counter=self.counter, to_move=to_move, utility=0)
+        board=state.new(counter=state.counter+act, to_move=to_move, utility=0)
+        #board=Board5Misery(counter=self.counter, to_move=to_move, utility=0)
         if board.counter>=5:
             if player == 'X':
                 board.utility=-1

@@ -9,6 +9,14 @@ class Board5Misery(defaultdict):
     
     def __init__(self, counter=1, to_move=None, **kwds):
         self.__dict__.update(counter=counter, to_move=to_move, **kwds)
+        
+        
+        
+    def new(self, changes: dict, **kwds) -> 'Board5Misery':
+        board = Board5Misery(counter=self.counter, to_move=self.to_move, **kwds)
+        board.update(self)
+        return board
+        
 
     
     def __repr__(self):

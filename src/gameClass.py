@@ -30,7 +30,30 @@ def play_game(game, strategies: dict, verbose=False):
     while not game.is_terminal(state):
         player = state.to_move
         move = strategies[player](game, state)
+        print(move)
         state = game.result(state, move)
+        
+        if verbose: 
+            print('Player', player, 'move:', move)
+            print(state)
+    return state
+
+
+def play_game1(game, strategies: dict, verbose=False):
+    """Play a turn-taking game. `strategies` is a {player_name: function} dict,
+    where function(state, game) is used to get the player's move."""
+    state = game.initial
+    print(f"Game counter: {game.counter}")
+    round=1
+    while not game.is_terminal(state):
+        print(f"Round {round}")
+        player = state.to_move
+        move = strategies[player](game, state)
+        print(move)
+        state = game.result(state, move)
+        print(f"Game counter: {game.counter}")
+        
+        
         if verbose: 
             print('Player', player, 'move:', move)
             print(state)
