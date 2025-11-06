@@ -49,7 +49,7 @@ class FiveMisery(Game):
 
     def is_terminal(self, state):
         """A board is a terminal state if state.utility>=5."""
-        return state.utility >= 5
+        return state.counter >= 5
 
     def display(self, state): print(state)     
 
