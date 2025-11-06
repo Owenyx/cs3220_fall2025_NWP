@@ -44,8 +44,9 @@ def play_game1(game, strategies: dict, verbose=False):
     where function(state, game) is used to get the player's move."""
     state = game.initial
     print(f"Game counter: {game.counter}")
-    round=1
+    round=0
     while not game.is_terminal(state):
+        round+=1
         print(f"Round {round}")
         player = state.to_move
         move = strategies[player](game, state)
@@ -56,4 +57,5 @@ def play_game1(game, strategies: dict, verbose=False):
         if verbose: 
             print('Player', player, 'move:', move)
             print(state)
+    print("Game over")
     return state

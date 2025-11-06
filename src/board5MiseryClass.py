@@ -12,8 +12,10 @@ class Board5Misery(defaultdict):
         
         
         
-    def new(self, act) -> 'Board5Misery':
-        board = Board5Misery(counter=self.counter+act, to_move=self.to_move)
+    def new(self, player, act) -> 'Board5Misery':
+        print(f"the {self.to_move}")
+        board = Board5Misery(counter=self.counter+act, to_move=    def new(self, player, act) -> 'Board5Misery':
+)
         board.update(self)
         return board
         
