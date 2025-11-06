@@ -51,8 +51,7 @@ def play_game1(game, strategies: dict, verbose=False):
         move = strategies[player](game, state)
         print(move)
         state = game.result(state, move)
-        print(f"Game counter: {game.counter}")
-        
+        print(f"Game counter: {game.counter}")       
         
         if verbose: 
             print('Player', player, 'move:', move)

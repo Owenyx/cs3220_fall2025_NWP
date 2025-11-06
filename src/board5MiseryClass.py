@@ -7,13 +7,13 @@ class Board5Misery(defaultdict):
     where player is 'X' or 'O'."""
   
     
-    def __init__(self, counter=1, to_move=None, **kwds):
-        self.__dict__.update(counter=counter, to_move=to_move, **kwds)
+    def __init__(self, counter=1, to_move=None, utility=0):
+        self.__dict__.update(counter=counter, to_move=to_move, utility=utility)
         
         
         
-    def new(self, changes: dict, **kwds) -> 'Board5Misery':
-        board = Board5Misery(counter=self.counter, to_move=self.to_move, **kwds)
+    def new(self, act) -> 'Board5Misery':
+        board = Board5Misery(counter=self.counter+act, to_move=self.to_move)
         board.update(self)
         return board
         
