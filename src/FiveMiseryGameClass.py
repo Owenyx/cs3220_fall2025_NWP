@@ -33,7 +33,7 @@ class FiveMisery(Game):
             to_move='X'
         print(f"The next Player is {to_move}")
         board=Board5Misery(counter=self.counter, to_move=to_move, utility=0)
-        if board.counter>=15:
+        if board.counter>=5:
             if player == 'X':
                 board.utility=-1
             else:
