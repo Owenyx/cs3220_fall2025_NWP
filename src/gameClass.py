@@ -49,10 +49,13 @@ def play_game1(game, strategies: dict, verbose=False):
         round+=1
         print(f"Round {round}")
         player = state.to_move
+        print(f"{player}")
         move = strategies[player](game, state)
         print(move)
         state = game.result(state, move)
-        print(f"Game counter: {game.counter}")       
+        print(f"!{state.to_move}")
+        
+            
         
         if verbose: 
             print('Player', player, 'move:', move)

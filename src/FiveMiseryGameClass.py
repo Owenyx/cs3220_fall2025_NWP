@@ -28,11 +28,12 @@ class FiveMisery(Game):
         print(f"The current Player is {player}, game counter :{state.counter}")
         #self.counter+=act
         if player == 'X':
-            to_move='O'
+            player='O'
         else:
-            to_move='X'
-        print(f"The next Player is {to_move}")
+            player='X'
+        print(f"The next Player is {player}")
         board=state.new(player, act)
+        print(f"The next Player! is {player}")
         #board=Board5Misery(counter=self.counter, to_move=to_move, utility=0)
         if board.counter>=5:
             if player == 'X':
