@@ -8,13 +8,13 @@ class Board5Misery(defaultdict):
   
     
     def __init__(self, counter=1, to_move=None, utility=0):
-        print(f"!!!{to_move}")
+        #print(f"!!!{to_move}")
         self.__dict__.update(counter=counter, to_move=to_move, utility=utility)
         
         
         
     def new(self, player, act) -> 'Board5Misery':
-        print(f"the {player}")
+        #print(f"the {player}")
         board = Board5Misery(counter=self.counter+act, to_move=player) 
 
         board.update(self)
