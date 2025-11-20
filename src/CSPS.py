@@ -9,3 +9,9 @@ def MapColoringCSP(colors, neighbors):
     if isinstance(neighbors, str):
         neighbors = parse_neighbors(neighbors)
     return CSP(list(neighbors.keys()), UniversalDict(colors), neighbors, different_values_constraint)
+
+
+def AsteriskSudokuCSP(domains, neighbors):
+    if isinstance(neighbors, str):
+        neighbors = parse_neighbors(neighbors)
+    return CSP(list(neighbors.keys()), domains, neighbors, different_values_constraint)

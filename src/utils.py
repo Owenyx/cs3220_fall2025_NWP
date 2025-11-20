@@ -25,6 +25,9 @@ def different_values_constraint(A, a, B, b):
     return a != b
 
 
+def table_constraint(A, a, B, b):
+   
+
 
 def parse_neighbors(neighbors):
     """Convert a string of the form 'X: Y Z; Y: Z' into a dict mapping
