@@ -25,8 +25,9 @@ def different_values_constraint(A, a, B, b):
     return a != b
 
 
-def table_constraint(A, a, B, b):
-   
+def dinner_constraint(A, a, B, b):
+   """Two neighbouring variables cannot be in adjacent chairs"""
+   return abs(a - b) != 1 and abs(a - b) != 5
 
 
 def parse_neighbors(neighbors):
