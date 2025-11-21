@@ -83,6 +83,12 @@ def handle_dinner_fail_message(var, value, assignment):
                 if diff in (1, 5):
                     return f"B cannot sit next to {other}"
                 
+    if var in ("A", "C", "E"):
+        b_val = assignment["B"]
+        diff = abs(assignment[var] - b_val)
+        if diff in (1, 5):
+            return f"{var} cannot sit next to B"
+                
     for other, other_val in assignment.items():
         if other != var and other_val == value:
             return f"{var} cannot sit in chair {value} because {other} is there"
