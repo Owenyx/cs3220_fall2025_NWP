@@ -4,18 +4,20 @@ import random
 from src.utils import first
 from src.utils import min_conflicts_value1, argmax_random_tie
 
-from src.nodeClass import Node
-
 
 # Min-conflicts Hill Climbing search for CSPs
 def min_conflicts1(csp, max_steps=100000):
     """Solve a CSP by stochastic Hill Climbing on the number of conflicts."""
+
+    # --- Initial assignment ---
     # Generate a complete assignment for all variables (probably with conflicts)
     csp.current = current = {}
     for var in csp.variables:
         val = min_conflicts_value1(csp, var, current)
         csp.assign(var, val, current)
     print(f"Start with an arbitrary assignment: {csp.current}")
+
+    # --- Run min-conflicts algorithm ---
     # Now repeatedly choose a random conflicted variable and change it
     for i in range(max_steps):
         print(f"Step # {i}")

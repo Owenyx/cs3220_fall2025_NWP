@@ -62,8 +62,10 @@ def min_conflicts_value1(csp, var, current):
     """Return the value that will give var the least number of conflicts.
     If there is a tie, choose at random."""
     print(f"var {var} (val, nConflicts):")
+    # Produces a list of tuple of (value, nconflicts) for every value in vars domain
     varConflicts=[(val,csp.nconflicts(var, val, current)) for val in csp.domains[var]]
     print(f"{varConflicts}")
+    # Choose min based on nconflicts
     return argmin_random_tie(csp.domains[var], key=lambda val: csp.nconflicts(var, val, current))
 
 def argmin_random_tie(seq, key):

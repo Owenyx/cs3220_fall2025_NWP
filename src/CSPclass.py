@@ -45,7 +45,8 @@ class CSP(CSPBasic):
         """Return the number of conflicts var=val has with other variables."""
 
         # Subclasses may implement this more efficiently
-        def conflict(var2):
+        def conflict(var2): 
+            # O: Change this if I change how conflicts are handled
             return var2 in assignment and not self.constraints(var, val, var2, assignment[var2])
 
         return count(conflict(v) for v in self.neighbors[var])
