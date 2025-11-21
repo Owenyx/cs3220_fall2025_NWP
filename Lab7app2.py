@@ -129,7 +129,8 @@ with c3:
 # Rebuild assignment from steps up to current index
 # ------------------------------------------
 def build_assignment_from_steps(steps, up_to_index):
-    assignment = {}
+    assignment = {var: val[0] for var, val in given.items()}  # start with givens
+
     for i in range(up_to_index + 1):
         if i < 0:
             continue
