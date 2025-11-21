@@ -30,6 +30,9 @@ for key in given:
   domains[key] = given[key]
 
 
+given_vars = set(given.keys())
+
+
 st.set_page_config(page_title="CSP Backtracking Visualizer", layout="wide")
 st.title("Asterisk Sudoku CSP Backtracking Visualizer")
 
@@ -205,6 +208,14 @@ for row in range(1, 10):
         border_left = "2px solid #000" if col in (1,4,7) else "1px solid #999"
         border_bottom = "2px solid #000" if row == 9 else "1px solid #999"
         border_right = "2px solid #000" if col == 9 else "1px solid #999"
+
+        # Different background for given cells
+        if (row, col) in given_vars:
+            bg_color = "#444"  # dark gray for given
+            font_weight = "bold"
+        else:
+            bg_color = "#222"  # slightly darker for CSP-assigned
+            font_weight = "normal"
 
         row_cells += f"""
             <td style="
