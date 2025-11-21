@@ -176,11 +176,11 @@ else:
     val = parts[2]
 
     if kind == "A":
-        st.success(f"Step {st.session_state.current_step_index + 1}: Assign **{var}** → **{val}**")
+        st.success(f"Step {st.session_state.current_step_index + 1}: Assign **{val}** → **{var}**")
     elif kind == "X":
         reason = parts[3] if len(parts) == 4 else "No reason provided."
         st.error(
-            f"Step {st.session_state.current_step_index + 1}: Cannot assign **{var}** → **{val}**\n\n"
+            f"Step {st.session_state.current_step_index + 1}: Cannot assign **{val}** → **{var}**\n\n"
             f"**Reason:** {reason}"
         )
 
