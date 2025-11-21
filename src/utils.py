@@ -97,3 +97,18 @@ def handle_dinner_fail_message(var, value, assignment):
                 return f"{var} cannot sit next to B"
             
     return "Conflicts with constraints" # Default message in case i missed something
+
+
+from task2utils import *
+
+def handle_sudoku_fail_message(var, value, assignment):
+    for other, other_val in assignment.items():
+        if other != var and other_val == value:
+            if other in sameRow(var):
+                return f"{var} and {other} are in the same ROW and must have different values."
+            elif other in sameCol(var):
+                return f"{var} and {other} are in the same COLUMN and must have different values."
+            elif other in sameHouse(var):
+                return f"{var} and {other} are in the same HOUSE and must have different values."
+            elif other in asteriskNeighbours(var):
+                return f"{var} and {other} are both in the ASTERISK and must have different values."
