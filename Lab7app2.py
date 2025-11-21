@@ -3,6 +3,7 @@ from src.algorithms import backtracking_search_display
 from src.CSPS import AsteriskSudokuCSP
 from src.utils import handle_sudoku_fail_message
 from src.task2utils import sameCol, sameRow, sameHouse, asteriskNeighbours, given, allVals
+import ast
 
 
 # Set up neighbors
@@ -138,7 +139,11 @@ def build_assignment_from_steps(steps, up_to_index):
         # "X_B_3_some reason"
         parts = step.split("_", 3)
         kind = parts[0]
-        var = parts[1]
+
+         # var is stored as a string like "(1, 1)" – convert back to tuple
+        var_str = parts[1]
+        var = ast.literal_eval(var_str)  # (row, col)
+
         val = int(parts[2])
 
         if kind == "A":
