@@ -34,7 +34,7 @@ for key in given:
 
 
 st.set_page_config(page_title="CSP Backtracking Visualizer", layout="wide")
-st.title("Dinner Table CSP Backtracking Visualizer")
+st.title("Asterisk Sudoku CSP Backtracking Visualizer")
 
 # Initialize session state
 if "steps" not in st.session_state:
