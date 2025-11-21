@@ -99,7 +99,7 @@ def handle_dinner_fail_message(var, value, assignment):
     return "Conflicts with constraints" # Default message in case i missed something
 
 
-from task2utils import *
+from src.task2utils import *
 
 def handle_sudoku_fail_message(var, value, assignment):
     for other, other_val in assignment.items():
