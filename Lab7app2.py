@@ -33,6 +33,9 @@ for key in given:
 given_vars = set(given.keys())
 
 
+initial_assignment = {k: v[0] for k, v in given.items()}
+
+
 st.set_page_config(page_title="CSP Backtracking Visualizer", layout="wide")
 st.title("Asterisk Sudoku CSP Backtracking Visualizer")
 
@@ -40,7 +43,7 @@ st.title("Asterisk Sudoku CSP Backtracking Visualizer")
 if "steps" not in st.session_state:
     # Build CSP and compute steps once
     csp = AsteriskSudokuCSP(domains, neighbors)
-    result, steps = backtracking_search_display(csp, fail_reason_function=handle_sudoku_fail_message)
+    result, steps = backtracking_search_display(csp, handle_sudoku_fail_message, initial_assignment.copy())
     st.session_state.csp_result = result
     st.session_state.steps = steps
     st.session_state.current_step_index = -1  # -1 = initial state (no steps applied yet)
@@ -132,7 +135,7 @@ with c3:
 # Rebuild assignment from steps up to current index
 # ------------------------------------------
 def build_assignment_from_steps(steps, up_to_index):
-    assignment = {var: val[0] for var, val in given.items()}  # start with givens
+    assignment = initial_assignment.copy()
 
     for i in range(up_to_index + 1):
         if i < 0:

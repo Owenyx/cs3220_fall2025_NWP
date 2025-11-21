@@ -119,7 +119,7 @@ def backtracking_search(csp, select_unassigned_variable=first_unassigned_variabl
     return result
 
 
-def backtracking_search_display(csp, fail_reason_function, select_unassigned_variable=first_unassigned_variable, order_domain_values=unordered_domain_values):
+def backtracking_search_display(csp, fail_reason_function, initial_assignment={}, select_unassigned_variable=first_unassigned_variable, order_domain_values=unordered_domain_values):
     steps = [] # list of steps in the form:
     # "A_B_3" == "Assign B to 3" 
     # "X_C_2" == "Cannot assign C to 2"
@@ -143,5 +143,5 @@ def backtracking_search_display(csp, fail_reason_function, select_unassigned_var
             csp.unassign(var, assignment)
         return None # Domain of selected variables is empty, no solution
 
-    result = backtrack({})
+    result = backtrack(initial_assignment)
     return result, steps
