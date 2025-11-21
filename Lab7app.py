@@ -177,7 +177,6 @@ def seat_box(seat_num, vars_here):
             padding: 0.5rem;
             text-align: center;
             min-width: 3rem;
-            max-width: 3rem;
         ">
             <div style="font-size: 0.8rem; color: #555;">{label}</div>
             <div style="font-size: 1.5rem; font-weight: bold;">{content}</div>
