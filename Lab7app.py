@@ -3,7 +3,6 @@ from src.algorithms import backtracking_search_display
 from src.CSPS import dinnerAccomodationCSP
 from src.utils import UniversalDict, handle_dinner_fail_message
 
-
 neighbors = {
   'A': ['B', 'C', 'D', 'E'],
   'B': ['A', 'C', 'D', 'E'],
@@ -14,22 +13,66 @@ neighbors = {
 
 domains = UniversalDict([1, 2, 3, 4, 5, 6])
 
-
 st.set_page_config(page_title="CSP Backtracking Visualizer", layout="wide")
 st.title("Dinner Table CSP Backtracking Visualizer")
 
 # Initialize session state
-if "steps" not in st.session_state:
+if "raw_steps" not in st.session_state:
     # Build CSP and compute steps once
     csp = dinnerAccomodationCSP(domains, neighbors)
     result, steps = backtracking_search_display(csp, fail_reason_function=handle_dinner_fail_message)
     st.session_state.csp_result = result
-    st.session_state.steps = steps
+    st.session_state.raw_steps = steps  # original steps from algorithm
     st.session_state.current_step_index = -1  # -1 = initial state (no steps applied yet)
     st.session_state.forward_count = 0  # "A_*_*"
-    st.session_state.backward_count = 0  # "X_*_*"
+    st.session_state.backward_count = 0  # counts B (backtracks) and optionally X if you prefer
     st.session_state.total_count = 0
 
+# Expand raw steps into display steps that include explicit backtrack steps (B_...)
+def expand_steps_with_backtracks(raw_steps):
+    """
+    Build display_steps from raw_steps by inserting a 'B_<var>_<val>_backtrack' step
+    immediately after each failure 'X_...' when there is an assignment to undo.
+    We simulate the assignment stack while expanding so the synthetic B steps match what
+    would be undone.
+    """
+    display_steps = []
+    assign_stack = []  # stack of (var, val) representing currently assigned in simulation
+
+    for raw in raw_steps:
+        # Keep the original failed reason (if any) after the third underscore
+        parts = raw.split("_", 3)
+        kind = parts[0]
+
+        if kind == "A":
+            # Format: A_var_val
+            display_steps.append(raw)
+            try:
+                var = parts[1]
+                val = int(parts[2])
+            except Exception:
+                # if format is unexpected, just append and continue
+                continue
+            assign_stack.append((var, val))
+
+        elif kind == "X":
+            # Format: X_var_val[_reason...]
+            display_steps.append(raw)
+            # After a fail, algorithm backtracks: undo the most recent assignment (if any)
+            if assign_stack:
+                last_var, last_val = assign_stack.pop()
+                # Make a synthetic backtrack step; include a short reason token "backtrack"
+                display_steps.append(f"B_{last_var}_{last_val}_backtrack")
+
+        else:
+            # Unknown step kind (preserve to be safe)
+            display_steps.append(raw)
+
+    return display_steps
+
+# Build display steps and put in session (only once)
+if "steps" not in st.session_state:
+    st.session_state.steps = expand_steps_with_backtracks(st.session_state.raw_steps)
 
 steps = st.session_state.steps
 
@@ -50,11 +93,14 @@ with col_buttons[1]:
         if st.session_state.current_step_index >= 0:
             # Undo the effect of this step on counters
             step = steps[st.session_state.current_step_index]
-            parts = step.split("_", 3)
-            kind = parts[0]
+            kind = step.split("_", 1)[0]
+            # Count B as backward, X as backward as well if you want; A as forward
             if kind == "A":
                 st.session_state.forward_count = max(0, st.session_state.forward_count - 1)
+            elif kind == "B":
+                st.session_state.backward_count = max(0, st.session_state.backward_count - 1)
             elif kind == "X":
+                # Optional: count X as backward as well if desired
                 st.session_state.backward_count = max(0, st.session_state.backward_count - 1)
             st.session_state.total_count = max(0, st.session_state.total_count - 1)
             st.session_state.current_step_index -= 1
@@ -64,11 +110,13 @@ with col_buttons[2]:
         if st.session_state.current_step_index + 1 < len(steps):
             st.session_state.current_step_index += 1
             step = steps[st.session_state.current_step_index]
-            parts = step.split("_", 3)
-            kind = parts[0]
+            kind = step.split("_", 1)[0]
             if kind == "A":
                 st.session_state.forward_count += 1
+            elif kind == "B":
+                st.session_state.backward_count += 1
             elif kind == "X":
+                # Optional: count X as backward as well if you want; currently treat X as backward too
                 st.session_state.backward_count += 1
             st.session_state.total_count += 1
 
@@ -82,7 +130,7 @@ with col_buttons[3]:
             kind = s.split("_", 1)[0]
             if kind == "A":
                 forward += 1
-            elif kind == "X":
+            elif kind in ("B", "X"):
                 backward += 1
         st.session_state.forward_count = forward
         st.session_state.backward_count = backward
@@ -94,9 +142,9 @@ with col_buttons[3]:
 st.subheader("Step Counters")
 c1, c2, c3 = st.columns(3)
 with c1:
-    st.metric("Forward steps", st.session_state.forward_count)
+    st.metric("Forward steps (A)", st.session_state.forward_count)
 with c2:
-    st.metric("Backward steps", st.session_state.backward_count)
+    st.metric("Backward steps (B/X)", st.session_state.backward_count)
 with c3:
     st.metric("Total steps", st.session_state.total_count)
 
@@ -104,29 +152,42 @@ with c3:
 # Rebuild assignment from steps up to current index
 # ------------------------------------------
 def build_assignment_from_steps(steps, up_to_index):
+    """
+    Interpret these step kinds:
+      - A_var_val         : assign var -> val
+      - X_var_val_reason  : failed attempt (no change to assignment)
+      - B_var_val_backtrack: explicit undo of var=val (pop)
+    """
     assignment = {}
     for i in range(up_to_index + 1):
         if i < 0:
             continue
         step = steps[i]
-        # Possible formats:
-        # "A_B_3"
-        # "X_C_2"
-        # "X_B_3_some reason"
         parts = step.split("_", 3)
         kind = parts[0]
+        # guard against malformed steps
+        if len(parts) < 3:
+            continue
         var = parts[1]
-        val = int(parts[2])
+        try:
+            val = int(parts[2])
+        except Exception:
+            # if synthetic reason text is in parts[2], try to ignore
+            continue
 
         if kind == "A":
             assignment[var] = val
-        elif kind == "X":
-            # Failed attempt: ensure that if this was previously assigned, we undo it
-            # but normally, assignments are undone by later steps in the algorithm.
+        elif kind == "B":
+            # explicit backtrack: undo the assignment if it matches
             if assignment.get(var) == val:
                 assignment.pop(var, None)
-    return assignment
+        elif kind == "X":
+            # failure attempt: usually nothing to do; keep as-is
+            # but if a failing step somehow left the var assigned to this value, remove it
+            if assignment.get(var) == val:
+                assignment.pop(var, None)
 
+    return assignment
 
 current_assignment = build_assignment_from_steps(steps, st.session_state.current_step_index)
 
@@ -139,9 +200,8 @@ else:
     step = steps[st.session_state.current_step_index]
     parts = step.split("_", 3)
     kind = parts[0]
-    var = parts[1]
-    val = parts[2]
-
+    var = parts[1] if len(parts) > 1 else "?"
+    val = parts[2] if len(parts) > 2 else "?"
     if kind == "A":
         st.success(f"Step {st.session_state.current_step_index + 1}: Assign **{var}** → **{val}**")
     elif kind == "X":
@@ -150,6 +210,9 @@ else:
             f"Step {st.session_state.current_step_index + 1}: Cannot assign **{var}** → **{val}**\n\n"
             f"**Reason:** {reason}"
         )
+    elif kind == "B":
+        # show backtrack message
+        st.info(f"Step {st.session_state.current_step_index + 1}: Backtrack undo **{var}** → **{val}**")
 
 # ------------------------------------------
 # Dinner table layout with 6 boxes
