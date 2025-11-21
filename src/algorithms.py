@@ -119,3 +119,29 @@ def backtracking_search(csp, select_unassigned_variable=first_unassigned_variabl
     return result
 
 
+def backtracking_search_display(csp, select_unassigned_variable=first_unassigned_variable, order_domain_values=unordered_domain_values):
+    steps = [] # list of steps in the form:
+    # "A_B_3" == "Assign B to 3" 
+    # "X_C_2" == "Cannot assign C to 2"
+    # etc.
+
+    def backtrack(assignment):
+        if len(assignment) == len(csp.variables):
+            return assignment
+
+        var = select_unassigned_variable(assignment, csp)
+        for value in order_domain_values(var, assignment, csp):
+            if csp.nconflicts(var, value, assignment)==0:
+                # If no conflicts, then the assignment is valid and we can do it
+                csp.assign(var, value, assignment)
+                steps.append(f'A_{var}_{value}')
+                result = backtrack(assignment)
+                if result is not None:
+                  return result
+            
+            steps.append(f'X_{var}_{value}')
+            csp.unassign(var, assignment)
+        return None # Domain of selected variables is empty, no solution
+
+    result = backtrack({})
+    return result, steps

@@ -8,7 +8,7 @@
             
         
 <center>
-<h1>Lab6. Simple Sudoku constraints</h1>
+<h1>Lab4. Examples of Maze World Problem</h1>
 </center>
 
 <!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
@@ -27,7 +27,7 @@
 
 
         <center>
-          <h1>Lab6. Simple Sudoku constraints</h1>
+          <h1>Lab4. Examples of Maze World Problem</h1>
         </center>
         <style type="text/css">
 
@@ -88,8 +88,8 @@
                   
 
                   // parsing and collecting nodes and edges from the python
-                  nodes = new vis.DataSet([{"color": "white", "font": {"color": "white"}, "id": "A1", "label": "A1", "shape": "dot", "size": 10, "title": "", "x": 50, "y": 50}, {"color": "white", "font": {"color": "white"}, "id": "A2", "label": "A2", "shape": "dot", "size": 10, "title": "", "x": 100, "y": 50}, {"color": "yellow", "font": {"color": "white"}, "id": "A3", "label": "A3", "shape": "dot", "size": 10, "title": "3", "x": 150, "y": 50}, {"color": "yellow", "font": {"color": "white"}, "id": "B1", "label": "B1", "shape": "dot", "size": 10, "title": "9", "x": 50, "y": 100}, {"color": "white", "font": {"color": "white"}, "id": "B2", "label": "B2", "shape": "dot", "size": 10, "title": "", "x": 100, "y": 100}, {"color": "white", "font": {"color": "white"}, "id": "B3", "label": "B3", "shape": "dot", "size": 10, "title": "", "x": 150, "y": 100}, {"color": "white", "font": {"color": "white"}, "id": "C1", "label": "C1", "shape": "dot", "size": 10, "title": "", "x": 50, "y": 150}, {"color": "white", "font": {"color": "white"}, "id": "C2", "label": "C2", "shape": "dot", "size": 10, "title": "", "x": 100, "y": 150}, {"color": "yellow", "font": {"color": "white"}, "id": "C3", "label": "C3", "shape": "dot", "size": 10, "title": "1", "x": 150, "y": 150}]);
-                  edges = new vis.DataSet([{"color": "red", "from": "A1", "to": "A2"}, {"color": "red", "from": "A1", "to": "A3"}, {"color": "blue", "from": "A1", "to": "B1"}, {"color": "green", "from": "A1", "to": "B2"}, {"color": "green", "from": "A1", "to": "B3"}, {"color": "blue", "from": "A1", "to": "C1"}, {"color": "green", "from": "A1", "to": "C2"}, {"color": "green", "from": "A1", "to": "C3"}, {"color": "red", "from": "A2", "to": "A3"}, {"color": "green", "from": "A2", "to": "B1"}, {"color": "blue", "from": "A2", "to": "B2"}, {"color": "green", "from": "A2", "to": "B3"}, {"color": "green", "from": "A2", "to": "C1"}, {"color": "blue", "from": "A2", "to": "C2"}, {"color": "green", "from": "A2", "to": "C3"}, {"color": "green", "from": "A3", "to": "B1"}, {"color": "green", "from": "A3", "to": "B2"}, {"color": "blue", "from": "A3", "to": "B3"}, {"color": "green", "from": "A3", "to": "C1"}, {"color": "green", "from": "A3", "to": "C2"}, {"color": "blue", "from": "A3", "to": "C3"}, {"color": "red", "from": "B1", "to": "B2"}, {"color": "red", "from": "B1", "to": "B3"}, {"color": "blue", "from": "B1", "to": "C1"}, {"color": "green", "from": "B1", "to": "C2"}, {"color": "green", "from": "B1", "to": "C3"}, {"color": "red", "from": "B2", "to": "B3"}, {"color": "green", "from": "B2", "to": "C1"}, {"color": "blue", "from": "B2", "to": "C2"}, {"color": "green", "from": "B2", "to": "C3"}, {"color": "green", "from": "B3", "to": "C1"}, {"color": "green", "from": "B3", "to": "C2"}, {"color": "blue", "from": "B3", "to": "C3"}, {"color": "red", "from": "C1", "to": "C2"}, {"color": "red", "from": "C1", "to": "C3"}, {"color": "red", "from": "C2", "to": "C3"}]);
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "font": {"color": "white"}, "id": "A", "label": "A", "shape": "dot", "size": 10, "title": "1,2,3,4,5,6", "x": 5}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "B", "label": "B", "shape": "dot", "size": 10, "title": "1,2,3,4,5,6", "x": 5}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "C", "label": "C", "shape": "dot", "size": 10, "title": "1,2,3,4,5,6", "x": 5}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "D", "label": "D", "shape": "dot", "size": 10, "title": "1,2,3,4,5,6", "x": 5}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "E", "label": "E", "shape": "dot", "size": 10, "title": "1,2,3,4,5,6", "x": 5}]);
+                  edges = new vis.DataSet([{"arrows": "to", "color": "red", "from": "A", "to": "B", "width": 1}, {"arrows": "to", "color": "green", "from": "A", "to": "C", "width": 1}, {"arrows": "to", "color": "green", "from": "A", "to": "D", "width": 1}, {"arrows": "to", "color": "green", "from": "A", "to": "E", "width": 1}, {"arrows": "to", "color": "red", "from": "B", "to": "C", "width": 1}, {"arrows": "to", "color": "green", "from": "B", "to": "D", "width": 1}, {"arrows": "to", "color": "red", "from": "B", "to": "E", "width": 1}, {"arrows": "to", "color": "green", "from": "C", "to": "D", "width": 1}, {"arrows": "to", "color": "green", "from": "C", "to": "E", "width": 1}, {"arrows": "to", "color": "green", "from": "D", "to": "E", "width": 1}]);
 
                   nodeColors = {};
                   allNodes = nodes.get({ returnType: "Object" });
@@ -119,7 +119,7 @@
         "hideNodesOnDrag": false
     },
     "physics": {
-        "enabled": false,
+        "enabled": true,
         "stabilization": {
             "enabled": true,
             "fit": true,

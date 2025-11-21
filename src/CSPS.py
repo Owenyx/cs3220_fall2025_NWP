@@ -11,7 +11,7 @@ def MapColoringCSP(colors, neighbors):
     return CSP(list(neighbors.keys()), UniversalDict(colors), neighbors, different_values_constraint)
 
 
-def dinnerCSP(domains, neighbors):
+def dinnerAccomodationCSP(domains, neighbors):
     if isinstance(neighbors, str):
         neighbors = parse_neighbors(neighbors)
     return CSP(list(neighbors.keys()), domains, neighbors, dinner_constraint)

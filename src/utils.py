@@ -25,11 +25,6 @@ def different_values_constraint(A, a, B, b):
     return a != b
 
 
-def dinner_constraint(A, a, B, b):
-   """Two neighbouring variables cannot be in adjacent chairs"""
-   return abs(a - b) != 1 and abs(a - b) != 5
-
-
 def parse_neighbors(neighbors):
     """Convert a string of the form 'X: Y Z; Y: Z' into a dict mapping
     regions to neighbors. The syntax is a region name followed by a ':'
@@ -58,3 +53,56 @@ def first(iterable, default=None):
     return next(iter(iterable), default)
 
 
+def not_sitting_adjacent_constraint(A, a, B, b):
+  """A constraint that restricts two people from sitting next to each other in the dinner problem"""
+  # Difference of 1 is adjacent seat
+  # Difference of 5 would be seats 1 and 6, which are adjacent
+  return abs(a - b) != 1 and abs(a - b) != 5
+
+
+def dinner_constraint(A, a, B, b):
+  """A constraint that encapsulates all rules for the dinner problem"""
+
+  """No two people can sit on the same chair"""
+  all_diff = different_values_constraint(A, a, B, b)
+
+  """A & B. B & E. C & B. Each pair cannot sit together"""
+  safe_seating = True
+  if set([A, B]) in [set(['A', 'B']), set(['B', 'E']), set(['C', 'B'])]:
+    safe_seating = not_sitting_adjacent_constraint(A, a, B, b)
+
+  return all_diff and safe_seating
+
+
+def handle_dinner_message(assignment, just_assigned=None):
+    # If something was just assigned, skip all validation checks
+    if just_assigned is not None:
+        return f"{just_assigned} was assigned to {assignment.get(just_assigned)}."
+
+    # No two people can have the same chair
+    # Build a map from value -> list of keys that have that value
+    value_to_keys: dict[int, list[str]] = {}
+
+    for key1, value1 in assignment.items():
+       for key2, value2 in assignment.items():
+          if key1 == key2:
+            continue
+          if value1 == value2:
+            return f"Invalid assignment: {key1} and {key2} cannot have the same chair"
+             
+    # A & B, B & E, C & B cannot be adjacent
+    b_val = assignment.get("B")
+
+    if b_val is not None:
+        for other in ("A", "C", "E"):
+            other_val = assignment.get(other)
+            if other_val is not None:
+                diff = abs(b_val - other_val)
+                if diff in (1, 5):
+                    return (
+                        "Invalid assignment: B cannot sit next to "
+                        f"{other}."
+                    )
+
+    # If we got here, everything looks valid
+    return "Assignment is valid."
