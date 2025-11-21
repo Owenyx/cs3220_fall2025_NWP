@@ -96,7 +96,7 @@ with col_buttons[3]:
                 total += 1
         st.session_state.forward_count = forward
         st.session_state.backward_count = backward
-        st.session_state.total_count = len(steps)
+        st.session_state.total_count = total
 
 # ------------------------------------------
 # Step counters
