@@ -142,9 +142,9 @@ with col_buttons[3]:
 st.subheader("Step Counters")
 c1, c2, c3 = st.columns(3)
 with c1:
-    st.metric("Forward steps (A)", st.session_state.forward_count)
+    st.metric("Forward steps", st.session_state.forward_count)
 with c2:
-    st.metric("Backward steps (B/X)", st.session_state.backward_count)
+    st.metric("Backward steps", st.session_state.backward_count)
 with c3:
     st.metric("Total steps", st.session_state.total_count)
 
