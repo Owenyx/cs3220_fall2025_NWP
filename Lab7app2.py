@@ -187,44 +187,46 @@ st.subheader("Sudoku Board")
 # Map from (row, col) -> value, where current_assignment keys are tuples like (r, c)
 board = {}
 for var, val in current_assignment.items():
-    # var is expected to be a tuple (row, col)
     row, col = var
     board[(row, col)] = val
 
-# Helper to render a sudoku cell
-def sudoku_cell(row, col, value):
-    # Thicker borders for 3x3 box boundaries
-    border_top = "2px" if row in (1, 4, 7) else "1px"
-    border_left = "2px" if col in (1, 4, 7) else "1px"
-    border_bottom = "2px" if row == 9 else "1px"
-    border_right = "2px" if col == 9 else "1px"
-
-    display_val = value if value is not None else " "
-
-    st.markdown(
-        f"""
-        <div style="
-            border-top: {border_top} solid #555;
-            border-left: {border_left} solid #555;
-            border-right: {border_right} solid #555;
-            border-bottom: {border_bottom} solid #555;
-            width: 2.2rem;
-            height: 2.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-        ">
-            {display_val}
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-# Render 9x9 grid
+# Build HTML table for the whole board
+rows_html = ""
 for row in range(1, 10):
-    cols = st.columns(9)
+    row_cells = ""
     for col in range(1, 10):
-        with cols[col - 1]:
-            value = board.get((row, col), None)
-            sudoku_cell(row, col, value)
+        value = board.get((row, col))
+        display_val = value if value is not None else ""
+
+        # Thick borders on 3x3 box boundaries
+        border_top = "2px solid #000" if row in (1, 4, 7) else "1px solid #999"
+        border_left = "2px solid #000" if col in (1, 4, 7) else "1px solid #999"
+        border_bottom = "2px solid #000" if row == 9 else "1px solid #999"
+        border_right = "2px solid #000" if col == 9 else "1px solid #999"
+
+        row_cells += f"""
+            <td style="
+                width: 2.4rem;
+                height: 2.4rem;
+                text-align: center;
+                vertical-align: middle;
+                font-size: 1.2rem;
+                border-top: {border_top};
+                border-left: {border_left};
+                border-right: {border_right};
+                border-bottom: {border_bottom};
+            ">
+                {display_val}
+            </td>
+        """
+    rows_html += f"<tr>{row_cells}</tr>"
+
+board_html = f"""
+<div style="display: inline-block; margin-top: 1rem;">
+    <table cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
+        {rows_html}
+    </table>
+</div>
+"""
+
+st.markdown(board_html, unsafe_allow_html=True)
