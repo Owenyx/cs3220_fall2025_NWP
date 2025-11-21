@@ -4,6 +4,7 @@ from src.CSPS import AsteriskSudokuCSP
 from src.utils import handle_sudoku_fail_message
 from src.task2utils import sameCol, sameRow, sameHouse, asteriskNeighbours, given, allVals
 import ast
+import streamlit.components.v1 as components
 
 
 # Set up neighbors
@@ -198,9 +199,9 @@ for row in range(1, 10):
         value = board.get((row, col))
         display_val = value if value is not None else ""
 
-        # Thick borders on 3x3 box boundaries
-        border_top = "2px solid #000" if row in (1, 4, 7) else "1px solid #999"
-        border_left = "2px solid #000" if col in (1, 4, 7) else "1px solid #999"
+        # Thick borders for 3x3 boxes
+        border_top = "2px solid #000" if row in (1,4,7) else "1px solid #999"
+        border_left = "2px solid #000" if col in (1,4,7) else "1px solid #999"
         border_bottom = "2px solid #000" if row == 9 else "1px solid #999"
         border_right = "2px solid #000" if col == 9 else "1px solid #999"
 
@@ -222,11 +223,10 @@ for row in range(1, 10):
     rows_html += f"<tr>{row_cells}</tr>"
 
 board_html = f"""
-<div style="display: inline-block; margin-top: 1rem;">
-    <table cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
-        {rows_html}
-    </table>
-</div>
+<table cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
+    {rows_html}
+</table>
 """
 
-st.markdown(board_html, unsafe_allow_html=True)
+# Render properly in Streamlit
+components.html(board_html, height=350)  # adjust height as needed
