@@ -75,6 +75,11 @@ def dinner_constraint(A, a, B, b):
 
 
 def handle_dinner_fail_message(var, value, assignment):
+    # No two people can sit together in the same chair
+    for other, other_val in assignment.items():
+        if other != var and other_val == value:
+            return f"{var} cannot sit in chair {value} because {other} is there"
+
     # Check that B doesn't sit next to the one's it has constraints with
     if var == "B":
         for other in ("A", "C", "E"):
@@ -90,8 +95,5 @@ def handle_dinner_fail_message(var, value, assignment):
             diff = abs(value - b_val)  
             if diff in (1, 5):
                 return f"{var} cannot sit next to B"
-                
-    for other, other_val in assignment.items():
-        if other != var and other_val == value:
-            return f"{var} cannot sit in chair {value} because {other} is there"
-    return "Conflicts with constraints"
+            
+    return "Conflicts with constraints" # Default message in case i missed something
