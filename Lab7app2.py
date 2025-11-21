@@ -8,11 +8,6 @@ from src.task2utils import sameCol, sameRow, sameHouse, asteriskNeighbours, give
 # Set up neighbors
 neighbors = {}
 
-'''
-Keys will be tuples representing (row, col)
-From (1, 1) to (9, 9)
-'''
-
 
 for i in range(1, 10):
   for j in range(1, 10):
