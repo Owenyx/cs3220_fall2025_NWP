@@ -112,3 +112,5 @@ def handle_sudoku_fail_message(var, value, assignment):
                 return f"{var} and {other} are in the same HOUSE and must have different values."
             elif other in asteriskNeighbours(var):
                 return f"{var} and {other} are both in the ASTERISK and must have different values."
+    # No other explorable branches, backtrack more
+    return "No solution available from current branch."
