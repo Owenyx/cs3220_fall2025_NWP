@@ -213,6 +213,7 @@ for row in range(1, 10):
                 text-align: center;
                 vertical-align: middle;
                 font-size: 1.2rem;
+                color: white;
                 border-top: {border_top};
                 border-left: {border_left};
                 border-right: {border_right};
@@ -230,4 +231,4 @@ board_html = f"""
 """
 
 # Render properly in Streamlit
-components.html(board_html, height=350)  # adjust height as needed
+components.html(board_html, height=400)  # adjust height as needed
