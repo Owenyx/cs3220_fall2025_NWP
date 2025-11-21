@@ -74,35 +74,16 @@ def dinner_constraint(A, a, B, b):
   return all_diff and safe_seating
 
 
-def handle_dinner_message(assignment, just_assigned=None):
-    # If something was just assigned, skip all validation checks
-    if just_assigned is not None:
-        return f"{just_assigned} was assigned to {assignment.get(just_assigned)}."
-
-    # No two people can have the same chair
-    # Build a map from value -> list of keys that have that value
-    value_to_keys: dict[int, list[str]] = {}
-
-    for key1, value1 in assignment.items():
-       for key2, value2 in assignment.items():
-          if key1 == key2:
-            continue
-          if value1 == value2:
-            return f"Invalid assignment: {key1} and {key2} cannot have the same chair"
-             
-    # A & B, B & E, C & B cannot be adjacent
-    b_val = assignment.get("B")
-
-    if b_val is not None:
+def handle_dinner_fail_message(var, value, assignment):
+    # Check that B doesn't sit next to the one's it has constraints with
+    if var == "B":
         for other in ("A", "C", "E"):
-            other_val = assignment.get(other)
-            if other_val is not None:
-                diff = abs(b_val - other_val)
+            if other in assignment:
+                diff = abs(value - assignment[other])
                 if diff in (1, 5):
-                    return (
-                        "Invalid assignment: B cannot sit next to "
-                        f"{other}."
-                    )
-
-    # If we got here, everything looks valid
-    return "Assignment is valid."
+                    return f"B cannot sit next to {other}"
+                
+    for other, other_val in assignment.items():
+        if other != var and other_val == value:
+            return f"{var} cannot sit in chair {value} because {other} is there"
+    return "Conflicts with constraints"

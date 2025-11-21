@@ -1,7 +1,7 @@
 import streamlit as st
 from src.algorithms import backtracking_search_display
 from src.CSPS import dinnerAccomodationCSP
-from src.utils import UniversalDict
+from src.utils import UniversalDict, handle_dinner_fail_message
 
 
 neighbors = {
@@ -22,7 +22,7 @@ st.title("Dinner Table CSP Backtracking Visualizer")
 if "steps" not in st.session_state:
     # Build CSP and compute steps once
     csp = dinnerAccomodationCSP(domains, neighbors)
-    result, steps = backtracking_search_display(csp)
+    result, steps = backtracking_search_display(csp, fail_reason_function=handle_dinner_fail_message)
     st.session_state.csp_result = result
     st.session_state.steps = steps
     st.session_state.current_step_index = -1  # -1 = initial state (no steps applied yet)
@@ -94,9 +94,9 @@ with col_buttons[3]:
 st.subheader("Step Counters")
 c1, c2, c3 = st.columns(3)
 with c1:
-    st.metric("Forward steps (A)", st.session_state.forward_count)
+    st.metric("Forward steps", st.session_state.forward_count)
 with c2:
-    st.metric("Backward steps (X)", st.session_state.backward_count)
+    st.metric("Backward steps", st.session_state.backward_count)
 with c3:
     st.metric("Total steps", st.session_state.total_count)
 
@@ -112,7 +112,7 @@ def build_assignment_from_steps(steps, up_to_index):
         # Possible formats:
         # "A_B_3"
         # "X_C_2"
-        # "X_B_3_some reason with underscores"
+        # "X_B_3_some reason"
         parts = step.split("_", 3)
         kind = parts[0]
         var = parts[1]
@@ -122,7 +122,7 @@ def build_assignment_from_steps(steps, up_to_index):
             assignment[var] = val
         elif kind == "X":
             # Failed attempt: ensure that if this was previously assigned, we undo it
-            # but normally, assignments are undone by later steps in your algorithm.
+            # but normally, assignments are undone by later steps in the algorithm.
             if assignment.get(var) == val:
                 assignment.pop(var, None)
     return assignment
@@ -154,7 +154,7 @@ else:
 # ------------------------------------------
 # Dinner table layout with 6 boxes
 # ------------------------------------------
-st.subheader("Dinner Table Seating (1–6)")
+st.subheader("Dinner Table Seating")
 
 # Map seat number -> list of variables assigned there
 seat_to_vars = {i: [] for i in range(1, 7)}
@@ -177,6 +177,7 @@ def seat_box(seat_num, vars_here):
             padding: 0.5rem;
             text-align: center;
             min-width: 3rem;
+            max-width: 3rem;
         ">
             <div style="font-size: 0.8rem; color: #555;">{label}</div>
             <div style="font-size: 1.5rem; font-weight: bold;">{content}</div>
