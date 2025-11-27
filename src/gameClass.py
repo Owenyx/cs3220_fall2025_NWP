@@ -40,24 +40,4 @@ def play_game(game, strategies: dict, verbose=False):
 
 
 def play_game1(game, strategies: dict, verbose=False):
-    """Play a turn-taking game. `strategies` is a {player_name: function} dict,
-    where function(state, game) is used to get the player's move."""
-    state = game.initial
-    #print(f"Game counter: {game.counter}")
-    round=0
-    while not game.is_terminal(state):
-        round+=1
-        print(f"Round {round}")
-        player = state.to_move
-        print(f"The Player {player} is thinking ....")
-        move = strategies[player](game, state)
-        #print(move)
-        state = game.result(state, move)
-        #print(f"nest state: {state}")
-        #print(f"!{state.to_move}")            
-        if verbose: 
-            print('Player', player, 'move:', move)
-            print(f"The counter: {state.counter}")
-    print("X is a winner!" if state  == 1 else "O is a winner!")    
-    print("Game over")
-    return state
+    pass
