@@ -2,7 +2,7 @@ from queue import Queue
 import random
 
 from src.utils import first
-from src.utils import min_conflicts_value1, argmax_random_tie
+from src.utils import min_conflicts_value1
 
 
 # Min-conflicts Hill Climbing search for CSPs

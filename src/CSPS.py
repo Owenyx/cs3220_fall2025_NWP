@@ -1,5 +1,6 @@
 from src.CSPclass import CSP
 from src.utils import *
+from src.CourseCSPclass import CourseCSP
 
 def MapColoringCSP(colors, neighbors):
     """Make a CSP for the problem of coloring a map with different colors
@@ -11,9 +12,9 @@ def MapColoringCSP(colors, neighbors):
     return CSP(list(neighbors.keys()), UniversalDict(colors), neighbors, different_values_constraint)
 
 
-def CourseSchedulingCSP(courses, neighbors):
+def CourseSchedulingCSP(course_items, neighbors, amountsDict):
     """Make a CSP for the problem of assigning courses to different time slots
     across all weekdays"""
     if isinstance(neighbors, str):
         neighbors = parse_neighbors(neighbors)
-    return CSP(list(neighbors.keys()), courses, neighbors, courses_constraint)
+    return CourseCSP(list(neighbors.keys()), UniversalDict(course_items), neighbors, courses_constraint, amountsDict)

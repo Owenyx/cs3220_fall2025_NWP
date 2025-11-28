@@ -82,4 +82,17 @@ def shuffled(iterable):
 
 
 def courses_constraint(A, a, B, b):
+    """Constraint will only be between time slots on same and adjacent days"""
+
+    dayA = int(A[0])
+    dayB = int(B[0])
+
+    # If both lectures of the same class, then they cannot be on same or adjacent days
+    if a == b and a.endswith('lc') and abs(dayA - dayB) <= 1:
+        return False
     
+    # Labs cannot be on adjacent days (I added same day too because it makes sense)
+    if a == b and a.endswith('lb') and abs(dayA - dayB) <= 1:
+        return False
+    
+    return True
