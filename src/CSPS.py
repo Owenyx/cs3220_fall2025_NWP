@@ -9,3 +9,11 @@ def MapColoringCSP(colors, neighbors):
     if isinstance(neighbors, str):
         neighbors = parse_neighbors(neighbors)
     return CSP(list(neighbors.keys()), UniversalDict(colors), neighbors, different_values_constraint)
+
+
+def CourseSchedulingCSP(courses, neighbors):
+    """Make a CSP for the problem of assigning courses to different time slots
+    across all weekdays"""
+    if isinstance(neighbors, str):
+        neighbors = parse_neighbors(neighbors)
+    return CSP(list(neighbors.keys()), courses, neighbors, courses_constraint)

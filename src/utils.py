@@ -81,3 +81,5 @@ def shuffled(iterable):
     return items
 
 
+def courses_constraint(A, a, B, b):
+    
