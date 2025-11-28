@@ -4,7 +4,7 @@ class Board(defaultdict):
     """A board has the player to move, a cached utility value, 
     and a dict of {(x, y): player} entries, where player is 'X' or 'O'."""
     empty = '.'
-    off = '#'
+    off = '#' # Prohibited
     
     # to separate the concerns of creating the object's structure from populating its data
     # we use __init__ and  __new__
@@ -22,8 +22,8 @@ class Board(defaultdict):
         #The update() method can be used with defaultdict to add items from another dictionary
         #For existing keys, their values are overwritten. 
         #For new keys, the defaultdict handles their creation with the specified values
-        board.update(self)
-        board.update(changes)
+        board.update(self) # Copy current board
+        board.update(changes) # Update with changes
         return board
 
     def __missing__(self, loc):

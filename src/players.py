@@ -2,6 +2,7 @@ import random
 
 def smart_player(search_algorithm):
     """A game player who uses the specified search algorithm"""
+    # O: Remember - the seach returns val, move so here we extract move
     return lambda game, state: search_algorithm(game, state)[1]
 
 

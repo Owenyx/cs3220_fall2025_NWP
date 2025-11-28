@@ -12,6 +12,13 @@ class TicTacToe(Game):
 
     def actions(self, board):
         """Legal moves are any square not yet taken."""
+        '''
+        O:
+        Squares is a set of (0,0) to (3,3)
+        Board is the dict of non-empty cell assignments
+        Say (0,0) and (0,1) are assigned, this set difference will remove those two cells from the full set
+        resulting in only the empty cells
+        '''
         return self.squares - set(board)
 
     def result(self, board, square):
