@@ -30,12 +30,12 @@ def play_game(game, strategies: dict, verbose=False):
     while not game.is_terminal(state):
         player = state.to_move
         move = strategies[player](game, state)
-        print(move)
         state = game.result(state, move)
         
         if verbose: 
             print('Player', player, 'move:', move)
             print(state)
+            print()
     return state
 
 

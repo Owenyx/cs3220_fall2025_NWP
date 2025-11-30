@@ -9,3 +9,13 @@ def smart_player(search_algorithm):
 def random_player(game, state):
     """A game player who  uses random choice to do a next move"""
     return random.choice(list(game.actions(state)))
+
+
+def human_player(game, state):
+    actions = list(game.actions(state))
+
+    act = None
+    while act not in actions:
+        act = int(input(f'Count by {', '.join(map(str, actions))} ?'))
+
+    return act
