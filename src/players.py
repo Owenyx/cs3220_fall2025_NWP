@@ -16,6 +16,7 @@ def human_player(game, state):
 
     act = None
     while act not in actions:
-        act = int(input(f'Count by {', '.join(map(str, actions))} ?'))
+        actsString = ', '.join(map(str, actions))
+        act = int(input(f'Count by {actsString} ?'))
 
     return act
